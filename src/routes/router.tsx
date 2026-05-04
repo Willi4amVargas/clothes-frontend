@@ -6,6 +6,7 @@ import { MainLayout } from "@/layouts/MainLayout";
 import { TestComponent } from "@/components/TestComponent";
 import { ProductsPage } from "@/feature/products/pages/ProductsPage";
 import { InventoryPage } from "@/feature/inventory/pages/InventoryPage";
+import { CreateNewProductPage } from "@/feature/inventory/pages/CreateNewProductPage";
 
 export const appRouter = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "inventory",
         element: <InventoryPage />,
+      },
+      {
+        path: "inventory/new",
+        element: <CreateNewProductPage />,
       },
       {
         path: "clients",

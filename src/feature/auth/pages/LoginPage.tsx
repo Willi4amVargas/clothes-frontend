@@ -3,9 +3,9 @@ import { LoginForm } from '../components/LoginForm'
 export function LoginPage() {
   return (
     <main className="grid min-h-screen md:grid-cols-2">
-      <section className="hidden flex-col justify-end bg-blue-900 p-12 text-white md:flex">
+      <section className="hidden flex-col justify-end bg-primary p-12 text-white md:flex">
         <h1 className="text-4xl font-semibold">Enterprise Core ERP</h1>
-        <p className="mt-3 max-w-md text-base text-blue-100">
+        <p className="mt-3 max-w-md text-base text-primary/10">
           Secure, scalable resource management for modern enterprises. Delivering precision and
           control at scale.
         </p>

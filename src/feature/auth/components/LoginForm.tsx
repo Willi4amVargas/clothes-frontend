@@ -47,7 +47,7 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md shadow-lg">
       <CardHeader className="space-y-1">
-        <p className="text-xs font-bold uppercase tracking-wider text-blue-800">
+        <p className="text-xs font-bold uppercase tracking-wider text-primary">
           Corporate Precision
         </p>
         <CardTitle className="text-2xl">Sign In</CardTitle>

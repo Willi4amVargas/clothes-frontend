@@ -41,7 +41,7 @@ export function SideMenu() {
 
   return (
     <aside
-      className={`z-40 flex h-screen flex-col border-r border-slate-200 bg-slate-50 transition-all duration-300 ease-in-out ${
+      className={`z-40 flex flex-col border-r border-slate-200 bg-slate-50 transition-all duration-300 ease-in-out ${
         isOpen ? "w-64" : "w-20"
       }`}
     >
@@ -56,7 +56,7 @@ export function SideMenu() {
 
           {isOpen && (
             <div className="flex items-center gap-2 truncate">
-              <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-900 text-white">
+              <div className="flex h-8 w-8 items-center justify-center rounded bg-primary text-white">
                 <SquaresFourIcon size={20} weight="fill" />
               </div>
               <div>
@@ -86,7 +86,7 @@ export function SideMenu() {
         ))}
       </nav>
 
-      <div className="mt-auto space-y-1 border-t border-slate-200 px-3 py-4">
+      <div className="mt-auto sticky space-y-1 border-t border-slate-200 px-3 py-4">
         {bottomNavItems.map((item) => (
           <SideMenuItem key={item.label} {...item} isOpen={isOpen} />
         ))}
@@ -123,7 +123,7 @@ function ButtonLink({
     <Link
       to={to}
       className={[
-        "flex items-center rounded-md px-3 py-2.5 transition-all w-full bg-blue-900 text-white shadow-md hover:bg-blue-800",
+        "flex items-center rounded-md px-3 py-2.5 transition-all w-full bg-primary text-white shadow-md hover:bg-primary/90",
         isOpen ? "justify-start gap-3" : "justify-center",
       ].join(" ")}
     >
@@ -150,7 +150,7 @@ function SideMenuItem({
           "flex w-full items-center rounded-md px-3 py-2.5 transition-all relative group",
           isOpen ? "justify-start gap-4" : "justify-center",
           isActive
-            ? "bg-blue-50 text-blue-700 font-semibold"
+            ? "bg-primary/50 text-primary font-semibold"
             : "text-slate-500 hover:bg-slate-100 hover:text-slate-900",
         ].join(" ")
       }
@@ -158,7 +158,7 @@ function SideMenuItem({
       {({ isActive }) => (
         <>
           {isActive && (
-            <div className="absolute right-0 top-1 bottom-1 w-1 bg-blue-900 rounded-l-full" />
+            <div className="absolute right-0 top-1 bottom-1 w-1 bg-primary rounded-l-full" />
           )}
 
           <Icon

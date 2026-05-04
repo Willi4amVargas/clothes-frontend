@@ -40,7 +40,7 @@ export function MainHeader() {
         <IconShell icon={BellIcon} />
         <IconShell icon={ClockCounterClockwiseIcon} />
 
-        <Button className="h-8 rounded-md bg-blue-700 px-3 text-xs font-medium text-white hover:bg-blue-600">
+        <Button className="h-8 rounded-md bg-primary px-3 text-xs font-medium text-white hover:bg-primary/90">
           Quick Add
         </Button>
 

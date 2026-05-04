@@ -65,7 +65,7 @@ export function AlertsPanel() {
 
         <Button
           variant="link"
-          className="h-auto px-0 text-xs font-semibold text-blue-700 hover:text-blue-600"
+          className="h-auto px-0 text-xs font-semibold text-primary/70 hover:text-primary/60"
         >
           View All Alerts
         </Button>

@@ -22,11 +22,11 @@ export function SalesChartPlaceholder() {
               <div key={day} className="flex h-full flex-1 flex-col items-center justify-end gap-2">
                 <div className="flex h-31.25 items-end gap-2">
                   <div
-                    className="w-4 rounded-t-sm bg-blue-900"
+                    className="w-4 rounded-t-sm bg-primary"
                     style={{ height: `${salesHeights[index]}px` }}
                   />
                   <div
-                    className="w-4 rounded-t-sm bg-blue-200"
+                    className="w-4 rounded-t-sm bg-primary/20"
                     style={{ height: `${purchasesHeights[index]}px` }}
                   />
                 </div>
@@ -37,8 +37,8 @@ export function SalesChartPlaceholder() {
         </div>
 
         <div className="flex items-center justify-center gap-5 text-[11px] text-slate-500">
-          <LegendDot className="bg-blue-900" label="Sales" />
-          <LegendDot className="bg-blue-200" label="Purchases" />
+          <LegendDot className="bg-primary" label="Sales" />
+          <LegendDot className="bg-primary" label="Purchases" />
         </div>
       </CardContent>
     </Card>

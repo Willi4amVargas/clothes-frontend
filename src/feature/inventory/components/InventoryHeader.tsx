@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ExportIcon, PlusIcon } from "@phosphor-icons/react";
+import { useNavigate } from "react-router";
 
 export function InventoryHeader() {
+  const navigate = useNavigate();
+
   return (
     <div className="flex justify-between ">
       <div>
@@ -15,7 +18,7 @@ export function InventoryHeader() {
           <ExportIcon />
           Export
         </Button>
-        <Button className="hover:bg-blue-700 bg-blue-600">
+        <Button className="hover:bg-primary bg-primary/80" onClick={() => navigate("/inventory/new")}>
           <PlusIcon /> New Product
         </Button>
       </div>
