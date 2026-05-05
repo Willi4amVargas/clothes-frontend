@@ -7,10 +7,14 @@ import { TestComponent } from "@/components/TestComponent";
 import { ProductsPage } from "@/feature/products/pages/ProductsPage";
 import { InventoryPage } from "@/feature/inventory/pages/InventoryPage";
 import { CreateNewProductPage } from "@/feature/inventory/pages/CreateNewProductPage";
+import { ClientsPage } from "@/feature/clients/pages/ClientsPage";
+import { CreateClientPage } from "@/feature/clients/pages/CreateClientPage";
+import { PosTerminalPage } from "@/feature/sales/pages/PosTerminalPage";
 
 export const appRouter = createBrowserRouter([
   {
     loader: protectedLoader,
+
     element: <MainLayout />,
     children: [
       {
@@ -27,16 +31,20 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: "clients",
-        element: <TestComponent label="Clients" />,
+        element: <ClientsPage />,
+      },
+      {
+        path: "clients/new",
+        element: <CreateClientPage />,
       },
       {
         path: "sales",
-        element: <TestComponent label="Sales POS" />,
+        element: <PosTerminalPage />,
       },
-      {
-        path: "reports",
-        element: <TestComponent label="Reports" />,
-      },
+      // {
+      //   path: "reports",
+      //   element: <TestComponent label="Reports" />,
+      // },
       {
         path: "settings",
         element: <TestComponent label="Settings" />,

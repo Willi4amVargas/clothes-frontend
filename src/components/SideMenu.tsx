@@ -26,7 +26,7 @@ const topNavItems: NavItem[] = [
   { label: "Inventory", icon: StackIcon, path: "/inventory" },
   { label: "Clients", icon: UsersThreeIcon, path: "/clients" },
   { label: "Sales POS", icon: ShoppingCartSimpleIcon, path: "/sales" },
-  { label: "Reports", icon: ChartBarIcon, path: "/reports" },
+  // { label: "Reports", icon: ChartBarIcon, path: "/reports" },
   { label: "Settings", icon: GearSixIcon, path: "/settings" },
 ];
 
@@ -75,7 +75,7 @@ export function SideMenu() {
       <div className="px-3 py-4">
         <ButtonLink
           label="New Transaction"
-          to="/transactions/new"
+          to="/sales"
           isOpen={isOpen}
         />
       </div>

@@ -8,10 +8,10 @@ export function InventoryHeader() {
   return (
     <div className="flex justify-between ">
       <div>
-        <h1 className="text-3xl">Products & Multi-Unit Stock</h1>
-        <h4 className="text-slate-600">
+        <h1 className="text-2xl font-semibold text-slate-900">Products & Multi-Unit Stock</h1>
+        <p className="mt-1 text-sm text-slate-500">
           Manage inventory levels and pricing per unit
-        </h4>
+        </p>
       </div>
       <div className="my-auto grid grid-cols-2 gap-x-6 mx-5">
         <Button variant={"ghost"}>
