@@ -1,4 +1,4 @@
-# AGENTS.md
+# Project: Enterprise ERP High-Density
 
 ## Commands
 

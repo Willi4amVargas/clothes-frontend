@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { AppProvider } from "./context/app-context.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  // <StrictMode>
+  <StrictMode>
     <AuthProvider>
       <AppProvider>
         <App />
@@ -19,5 +19,5 @@ createRoot(document.getElementById("root")!).render(
         />
       </AppProvider>
     </AuthProvider>
-  // </StrictMode>,
+  </StrictMode>,
 );

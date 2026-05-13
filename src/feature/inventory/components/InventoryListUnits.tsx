@@ -13,63 +13,47 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
+import { useEffect } from "react";
+import type { Product } from "../models/Product";
+import { useInventoryUnitsStock } from "../hooks/use-inventory-units-stock";
+import { Link } from "react-router";
+import { Button } from "@/components/ui/button";
+import { ArrowRightIcon } from "@phosphor-icons/react";
 
-interface UnitBreakdown {
-  id: string;
-  unitType: string;
-  convRatio: number;
-  cost: number;
-  price: number;
-  inStock: number;
-}
+export const InventoryListUnits = ({
+  selectedProduct,
+}: {
+  selectedProduct: Product | undefined;
+}) => {
+  const { inventoryWithUnitsAndStock, getProductWithUnitsAndStock } =
+    useInventoryUnitsStock();
 
-const unitBreakdowns: UnitBreakdown[] = [
-  {
-    id: "1",
-    unitType: "Box",
-    convRatio: 24,
-    cost: 120.0,
-    price: 180.0,
-    inStock: 45,
-  },
-  {
-    id: "2",
-    unitType: "Pack",
-    convRatio: 6,
-    cost: 32.0,
-    price: 48.0,
-    inStock: 30,
-  },
-  {
-    id: "3",
-    unitType: "Unit",
-    convRatio: 1,
-    cost: 6.0,
-    price: 9.5,
-    inStock: 190,
-  },
-];
-
-export const InventoryListUnits = () => {
-  const totalBaseUnits = unitBreakdowns.reduce(
-    (sum, unit) => sum + unit.inStock * unit.convRatio,
-    0,
-  );
+  useEffect(() => {
+    if (!selectedProduct) return;
+    getProductWithUnitsAndStock(selectedProduct.id);
+  }, [selectedProduct]);
 
   return (
     <Card className="mx-auto">
       <CardHeader className="flex flex-row items-center justify-between bg-zinc-50 border-b border-border">
         <CardTitle className="text-xl font-semibold text-foreground">
-          Unit Breakdown
+          {selectedProduct?.referenc}
         </CardTitle>
         <CardDescription className="text-sm font-medium text-muted-foreground">
-          PRD-9021
+          {selectedProduct?.code}
         </CardDescription>
+        {selectedProduct && (
+          <Button asChild variant={"link"} className="w-1/4">
+            <Link to={`/inventory/update/${selectedProduct.id}`}>
+              Details <ArrowRightIcon />
+            </Link>
+          </Button>
+        )}
       </CardHeader>
 
       <CardContent className="p-5 space-y-4">
         <h3 className="text-xl font-semibold text-foreground pt-1">
-          Industrial Sealant Pro
+          {selectedProduct?.description}
         </h3>
 
         <Table className="border-t border-border">
@@ -77,9 +61,6 @@ export const InventoryListUnits = () => {
             <TableRow className="border-b-0 hover:bg-transparent">
               <TableHead className="text-sm font-normal text-muted-foreground w-32.5">
                 Unit Type
-              </TableHead>
-              <TableHead className="text-sm font-normal text-muted-foreground text-center">
-                Conv. Ratio
               </TableHead>
               <TableHead className="text-sm font-normal text-muted-foreground text-right">
                 Cost
@@ -93,39 +74,32 @@ export const InventoryListUnits = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {unitBreakdowns.map((unit) => (
-              <TableRow
-                key={unit.id}
-                className="border-b border-dotted border-border last:border-b-0 hover:bg-zinc-50/50"
-              >
-                <TableCell className="text-sm font-semibold text-zinc-900 py-3">
-                  {unit.unitType}
-                </TableCell>
-                <TableCell className="text-sm font-normal text-zinc-600 text-center">
-                  {unit.convRatio} units
-                </TableCell>
-                <TableCell className="text-sm font-semibold text-zinc-900 text-right">
-                  ${unit.cost.toFixed(2)}
-                </TableCell>
-                <TableCell className="text-sm font-semibold text-zinc-900 text-right">
-                  ${unit.price.toFixed(2)}
-                </TableCell>
-                <TableCell className="text-sm font-semibold text-primary-600 text-right">
-                  {unit.inStock}
-                </TableCell>
-              </TableRow>
-            ))}
+            {inventoryWithUnitsAndStock &&
+              inventoryWithUnitsAndStock.units.map((unit) => (
+                <TableRow
+                  key={unit.id}
+                  className="border-b border-dotted border-border last:border-b-0 hover:bg-zinc-50/50"
+                >
+                  <TableCell className="text-sm font-semibold text-zinc-900 py-3">
+                    {unit.unit}
+                  </TableCell>
+                  <TableCell className="text-sm font-semibold text-zinc-900 text-right">
+                    ${unit.cost.toFixed(2)}
+                  </TableCell>
+                  <TableCell className="text-sm font-semibold text-zinc-900 text-right">
+                    ${unit.price.toFixed(2)}
+                  </TableCell>
+                  <TableCell className="text-sm font-semibold text-primary-600 text-right">
+                    {
+                      inventoryWithUnitsAndStock.stock.find(
+                        (stock) => stock.unit === unit.id,
+                      )?.stock
+                    }
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
-
-        <div className="flex justify-end pt-3 text-zinc-900">
-          <span className="text-sm font-medium text-muted-foreground pr-2">
-            Total Base Units:
-          </span>
-          <span className="text-xl font-bold tracking-tight">
-            {totalBaseUnits.toLocaleString()}
-          </span>
-        </div>
       </CardContent>
     </Card>
   );

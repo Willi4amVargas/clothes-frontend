@@ -1,13 +1,15 @@
 import { PlusIcon, TrashIcon } from "@phosphor-icons/react";
-import { useState } from "react";
+import {
+  Controller,
+  useFieldArray,
+  useWatch,
+  type Control,
+  type FieldErrors,
+  type UseFormRegister,
+} from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -26,81 +28,40 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { ProductInputType } from "../schemas/product.schema";
 
-interface PricingUnit {
-  id: string;
-  unitType: string;
-  cost: string;
-  price: string;
-  isDefault: boolean;
-}
+const origins = ["NACIONAL", "IMPORTADO"];
 
-const initialUnits: PricingUnit[] = [
-  { id: "1", unitType: "Single Unit", cost: "12.50", price: "24.99", isDefault: true },
-  { id: "2", unitType: "Box (12 pcs)", cost: "135.00", price: "269.88", isDefault: false },
-];
+export function NewProductForm({
+  register,
+  control,
+  errors,
+}: {
+  register: UseFormRegister<ProductInputType>;
+  control: Control<ProductInputType>;
+  errors: FieldErrors<ProductInputType>;
+}) {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "products_units",
+  });
 
-const brands = [
-  "Nike",
-  "Adidas",
-  "Puma",
-  "Under Armour",
-  "Reebok",
-  "New Balance",
-  "ASICS",
-  "Columbia",
-];
-
-const countries = [
-  "United States",
-  "China",
-  "Vietnam",
-  "India",
-  "Bangladesh",
-  "Turkey",
-  "Italy",
-  "Portugal",
-];
-
-export function NewProductForm() {
-  const [isActive, setIsActive] = useState(true);
-  const [units, setUnits] = useState<PricingUnit[]>(initialUnits);
+  const watchedUnits = useWatch({
+    control,
+    name: "products_units",
+  });
 
   const handleAddUnit = () => {
-    const newUnit: PricingUnit = {
-      id: Date.now().toString(),
-      unitType: "",
-      cost: "",
-      price: "",
-      isDefault: false,
-    };
-    setUnits([...units, newUnit]);
+    append({
+      unit: "UNIDAD",
+      cost: 0,
+      price: 0,
+    });
   };
 
-  const handleDeleteUnit = (id: string) => {
-    setUnits(units.filter((u) => u.id !== id));
-  };
-
-  const handleDefaultChange = (id: string) => {
-    setUnits(
-      units.map((u) => ({
-        ...u,
-        isDefault: u.id === id,
-      }))
-    );
-  };
-
-  const handleUnitChange = (id: string, field: keyof PricingUnit, value: string) => {
-    setUnits(
-      units.map((u) => (u.id === id ? { ...u, [field]: value } : u))
-    );
-  };
-
-  const calculateMarkup = (cost: string, price: string): string => {
-    const costNum = parseFloat(cost);
-    const priceNum = parseFloat(price);
-    if (!costNum || !priceNum) return "--";
-    const markup = ((priceNum - costNum) / costNum) * 100;
+  const calculateMarkup = (cost?: number, price?: number): string => {
+    if (!cost || !price || cost <= 0) return "--";
+    const markup = ((price - cost) / cost) * 100;
     return `${markup.toFixed(1)}%`;
   };
 
@@ -110,13 +71,22 @@ export function NewProductForm() {
         <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b">
           <CardTitle>General Information</CardTitle>
           <div className="flex items-center gap-2">
-            <Label htmlFor="active-status" className="text-xs text-muted-foreground">
+            <Label
+              htmlFor="active-status"
+              className="text-xs text-muted-foreground"
+            >
               Active Status
             </Label>
-            <Switch
-              id="active-status"
-              checked={isActive}
-              onCheckedChange={setIsActive}
+            <Controller
+              control={control}
+              name="status"
+              render={({ field }) => (
+                <Switch
+                  id="active-status"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
             />
           </div>
         </CardHeader>
@@ -124,52 +94,94 @@ export function NewProductForm() {
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="product-code">Product Code</Label>
-              <Input id="product-code" placeholder="PRD-0001" />
+              <Input
+                id="product-code"
+                placeholder="PRD-0001"
+                {...register("code")}
+              />
+              {errors.code && (
+                <span className="text-xs text-destructive">
+                  {errors.code.message}
+                </span>
+              )}
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="brand">Brand</Label>
-              <Select>
-                <SelectTrigger id="brand">
-                  <SelectValue placeholder="Select brand" />
-                </SelectTrigger>
-                <SelectContent>
-                  {brands.map((brand) => (
-                    <SelectItem key={brand} value={brand.toLowerCase()}>
-                      {brand}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Label htmlFor="Mark">Mark</Label>
+              <Input
+                id="product-mark"
+                placeholder="Enter product Mark..."
+                {...register("mark")}
+              />
+              {errors.mark && (
+                <span className="text-xs text-destructive">
+                  {errors.mark.message}
+                </span>
+              )}
             </div>
             <div className="col-span-2 flex flex-col gap-1.5">
               <Label htmlFor="product-description">Product Description</Label>
               <Input
                 id="product-description"
                 placeholder="Enter product description..."
+                {...register("description")}
               />
+              {errors.description && (
+                <span className="text-xs text-destructive">
+                  {errors.description.message}
+                </span>
+              )}
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="model">Model</Label>
-              <Input id="model" placeholder="Model number" />
+              <Input
+                id="model"
+                placeholder="Model number"
+                {...register("model")}
+              />
+              {errors.model && (
+                <span className="text-xs text-destructive">
+                  {errors.model.message}
+                </span>
+              )}
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="internal-ref">Internal Reference</Label>
-              <Input id="internal-ref" placeholder="INT-REF-001" />
+              <Input
+                id="internal-ref"
+                placeholder="INT-REF-001"
+                {...register("referenc")}
+              />
+              {errors.referenc && (
+                <span className="text-xs text-destructive">
+                  {errors.referenc.message}
+                </span>
+              )}
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="country">Country of Origin</Label>
-              <Select>
-                <SelectTrigger id="country">
-                  <SelectValue placeholder="Select country" />
-                </SelectTrigger>
-                <SelectContent>
-                  {countries.map((country) => (
-                    <SelectItem key={country} value={country.toLowerCase()}>
-                      {country}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Label htmlFor="Origin">Origin</Label>
+              <Controller
+                control={control}
+                name="origin"
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger id="Origin">
+                      <SelectValue placeholder="Select Origin" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {origins.map((origin) => (
+                        <SelectItem key={origin} value={origin.toUpperCase()}>
+                          {origin}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.origin && (
+                <span className="text-xs text-destructive">
+                  {errors.origin.message}
+                </span>
+              )}
             </div>
           </div>
         </CardContent>
@@ -178,7 +190,12 @@ export function NewProductForm() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b">
           <CardTitle>Multi-unit Pricing</CardTitle>
-          <Button variant="outline" size="sm" onClick={handleAddUnit}>
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={handleAddUnit}
+          >
             <PlusIcon weight="bold" />
             Add Unit
           </Button>
@@ -188,71 +205,92 @@ export function NewProductForm() {
             <TableHeader>
               <TableRow className="bg-muted/50">
                 <TableHead className="font-semibold">Unit Type</TableHead>
-                <TableHead className="font-semibold">Cost (USD)</TableHead>
-                <TableHead className="font-semibold">Price (USD)</TableHead>
+                <TableHead className="font-semibold">Cost</TableHead>
+                <TableHead className="font-semibold">Price</TableHead>
                 <TableHead className="font-semibold">Markup</TableHead>
-                <TableHead className="font-semibold text-center">Default</TableHead>
                 <TableHead className="w-10"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {units.map((unit) => (
-                <TableRow key={unit.id}>
-                  <TableCell>
-                    <Input
-                      value={unit.unitType}
-                      onChange={(e) =>
-                        handleUnitChange(unit.id, "unitType", e.target.value)
-                      }
-                      placeholder="e.g. Single Unit"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      value={unit.cost}
-                      onChange={(e) =>
-                        handleUnitChange(unit.id, "cost", e.target.value)
-                      }
-                      placeholder="0.00"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      value={unit.price}
-                      onChange={(e) =>
-                        handleUnitChange(unit.id, "price", e.target.value)
-                      }
-                      placeholder="0.00"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-xs font-semibold text-emerald-600">
-                      {calculateMarkup(unit.cost, unit.price)}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <input
-                      type="radio"
-                      name="default-unit"
-                      checked={unit.isDefault}
-                      onChange={() => handleDefaultChange(unit.id)}
-                      className="h-4 w-4 accent-primary"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="ghost"
-                      size="icon-xs"
-                      className="text-muted-foreground hover:text-destructive"
-                      onClick={() => handleDeleteUnit(unit.id)}
-                    >
-                      <TrashIcon weight="bold" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {fields.map((field, index) => {
+                const cost = watchedUnits?.[index]?.cost;
+                const price = watchedUnits?.[index]?.price;
+                return (
+                  <TableRow key={field.id}>
+                    <TableCell>
+                      <input
+                        type="hidden"
+                        {...register(`products_units.${index}.id` as const, {
+                          valueAsNumber: true,
+                        })}
+                      />
+                      <Input
+                        placeholder="e.g. Single Unit"
+                        {...register(`products_units.${index}.unit` as const)}
+                      />
+                      {errors.products_units?.[index]?.unit && (
+                        <span className="text-xs text-destructive block mt-1">
+                          {errors.products_units[index]?.unit?.message}
+                        </span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        placeholder="0.00"
+                        {...register(`products_units.${index}.cost` as const, {
+                          valueAsNumber: true,
+                        })}
+                      />
+                      {errors.products_units?.[index]?.cost && (
+                        <span className="text-xs text-destructive block mt-1">
+                          {errors.products_units[index]?.cost?.message}
+                        </span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        placeholder="0.00"
+                        {...register(`products_units.${index}.price` as const, {
+                          valueAsNumber: true,
+                        })}
+                      />
+                      {errors.products_units?.[index]?.price && (
+                        <span className="text-xs text-destructive block mt-1">
+                          {errors.products_units[index]?.price?.message}
+                        </span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <span className="text-xs font-semibold text-emerald-600">
+                        {calculateMarkup(cost, price)}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="icon-xs"
+                        type="button"
+                        className="text-muted-foreground hover:text-destructive"
+                        onClick={() => remove(index)}
+                      >
+                        <TrashIcon weight="bold" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
+          {errors.products_units &&
+            typeof errors.products_units.message === "string" && (
+              <div className="p-4 text-xs text-destructive">
+                {errors.products_units.message}
+              </div>
+            )}
         </CardContent>
       </Card>
     </div>

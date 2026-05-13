@@ -30,6 +30,26 @@ class ApiClient {
     return this.request<TResponse>(path, { ...options, method: "POST", body });
   }
 
+  public put<TResponse>(
+    path: string,
+    body: unknown,
+    options?: Omit<RequestOptions, "method" | "body">,
+  ) {
+    return this.request<TResponse>(path, { ...options, method: "PUT", body });
+  }
+
+  public delete<TResponse>(
+    path: string,
+    body: unknown,
+    options?: Omit<RequestOptions, "method" | "body">,
+  ) {
+    return this.request<TResponse>(path, {
+      ...options,
+      method: "DELETE",
+      body,
+    });
+  }
+
   private async request<TResponse>(
     path: string,
     options: RequestOptions,
@@ -38,8 +58,8 @@ class ApiClient {
     const dryRun = options.dryRun ?? true;
     const withAuth = options.withAuth ?? true;
     const url = dryRun
-      ? this.withQuery(path, { dry_run: String(dryRun) })
-      : path;
+      ? path
+      : this.withQuery(path, { dry_run: String(dryRun) });
     const headers = new Headers(options.headers);
 
     if (options.body !== undefined) {

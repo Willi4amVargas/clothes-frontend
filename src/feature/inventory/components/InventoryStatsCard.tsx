@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export type TrendTone = "positive" | "negative" | "neutral";
 
-interface InventoryStatsCardProps {
+export interface InventoryStatsCardProps {
   title: string;
   value: string;
   trendLabel: string;

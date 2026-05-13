@@ -4,17 +4,18 @@ import { createBrowserRouter } from "react-router";
 import { loginLoader, protectedLoader } from "./protected-loader";
 import { MainLayout } from "@/layouts/MainLayout";
 import { TestComponent } from "@/components/TestComponent";
-import { ProductsPage } from "@/feature/products/pages/ProductsPage";
 import { InventoryPage } from "@/feature/inventory/pages/InventoryPage";
 import { CreateNewProductPage } from "@/feature/inventory/pages/CreateNewProductPage";
 import { ClientsPage } from "@/feature/clients/pages/ClientsPage";
 import { CreateClientPage } from "@/feature/clients/pages/CreateClientPage";
 import { PosTerminalPage } from "@/feature/sales/pages/PosTerminalPage";
 
+import { UserProfilePage } from "@/feature/user-profile/pages/UserProfilePage";
+import { UpdateProductPage } from "@/feature/inventory/pages/UpdateProductPage";
+
 export const appRouter = createBrowserRouter([
   {
     loader: protectedLoader,
-
     element: <MainLayout />,
     children: [
       {
@@ -22,12 +23,30 @@ export const appRouter = createBrowserRouter([
         element: <DashboardPage />,
       },
       {
-        path: "inventory",
-        element: <InventoryPage />,
+        path: "profile",
+        element: <UserProfilePage />,
       },
       {
-        path: "inventory/new",
-        element: <CreateNewProductPage />,
+        path: "inventory",
+        children: [
+          {
+            index: true,
+            element: <InventoryPage />,
+          },
+          {
+            path: "update",
+            children: [
+              {
+                path: ":id",
+                element: <UpdateProductPage />,
+              },
+            ],
+          },
+          {
+            path: "new",
+            element: <CreateNewProductPage />,
+          },
+        ],
       },
       {
         path: "clients",
@@ -48,10 +67,6 @@ export const appRouter = createBrowserRouter([
       {
         path: "settings",
         element: <TestComponent label="Settings" />,
-      },
-      {
-        path: "products",
-        element: <ProductsPage />,
       },
     ],
   },

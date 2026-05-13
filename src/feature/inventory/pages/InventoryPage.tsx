@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { InventoryHeader } from "../components/InventoryHeader";
 import { InventoryList } from "../components/InventoryList";
 import { InventoryListUnits } from "../components/InventoryListUnits";
 import {
   InventoryStatsCard,
-  type TrendTone,
+  type InventoryStatsCardProps,
 } from "../components/InventoryStatsCard";
+import type { Product } from "../models/Product";
 
-const inventoryStats = [
+const inventoryStats: InventoryStatsCardProps[] = [
   {
     title: "Total SKUs",
     value: "4,281",
@@ -34,6 +36,9 @@ const inventoryStats = [
 ];
 
 export function InventoryPage() {
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(
+    undefined,
+  );
   return (
     <div className="mx-5">
       <InventoryHeader />
@@ -42,17 +47,17 @@ export function InventoryPage() {
           <InventoryStatsCard
             title={i.title}
             trendLabel={i.trendLabel}
-            trendTone={i.trendTone as TrendTone}
+            trendTone={i.trendTone}
             value={i.value}
           />
         ))}
       </div>
       <div className="grid grid-cols-5 gap-x-2 mt-4">
         <div className="col-span-3">
-          <InventoryList />
+          <InventoryList setSelectedProduct={setSelectedProduct} />
         </div>
         <div className="col-span-2">
-          <InventoryListUnits />
+          <InventoryListUnits selectedProduct={selectedProduct} />
         </div>
       </div>
     </div>

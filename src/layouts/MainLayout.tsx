@@ -2,6 +2,7 @@ import { SideMenu } from "@/components/SideMenu";
 import { MainHeader } from "@/components/MainHeader";
 import { Outlet } from "react-router";
 import { useApp } from "@/hooks/use-app";
+import { ContextLayout } from "./ContextLayout";
 
 export function MainLayout() {
   const { fullscreen } = useApp();
@@ -10,7 +11,9 @@ export function MainLayout() {
       <SideMenu />
       <div className="flex min-w-0 flex-1 flex-col">
         {!fullscreen && <MainHeader />}
-        <Outlet />
+        <ContextLayout>
+          <Outlet />
+        </ContextLayout>
       </div>
     </div>
   );

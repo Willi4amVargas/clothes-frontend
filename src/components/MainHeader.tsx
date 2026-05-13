@@ -8,6 +8,8 @@ import type { ElementType } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import { Link } from "react-router";
+
 const centerLinks = ["Inventory", "Orders", "Invoices"];
 
 export function MainHeader() {
@@ -40,19 +42,19 @@ export function MainHeader() {
         <IconShell icon={BellIcon} />
         <IconShell icon={ClockCounterClockwiseIcon} />
 
-        <Button className="h-8 rounded-md bg-primary px-3 text-xs font-medium text-white hover:bg-primary/90">
+        <Button className="h-8 bg-primary px-3 text-xs font-medium text-white hover:bg-primary/90">
           Quick Add
         </Button>
 
-        <button
-          type="button"
-          className="flex items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5"
+        <Link
+          to="/profile"
+          className="flex items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5 hover:bg-slate-50 transition-colors"
         >
           <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-900 text-[11px] font-semibold text-white">
-            WA
+            CR
           </div>
           <CaretDownIcon size={12} className="text-slate-500" />
-        </button>
+        </Link>
       </div>
     </header>
   );

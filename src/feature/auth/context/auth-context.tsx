@@ -5,10 +5,14 @@ import {
   useState,
   type PropsWithChildren,
 } from "react";
-import { authService } from "../services/auth.service";
 import { tokenStorage } from "@/shared/lib/token";
 import type { LoginInput } from "../schemas/login.schema";
 import { toast } from "react-toastify";
+import { apiClient } from "@/shared/lib/api";
+
+export type LoginResponse = {
+  token: string;
+};
 
 type AuthContextValue = {
   //   user: AuthUser | null
@@ -23,9 +27,16 @@ export const AuthContext = createContext<AuthContextValue | undefined>(
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const login = useCallback(async (credentials: LoginInput) => {
+  const login = async (credentials: LoginInput) => {
     try {
-      const token = await authService.login(credentials);
+      const token = await apiClient.post<LoginResponse>(
+        "/signin",
+        credentials,
+        {
+          dryRun: false,
+          withAuth: false,
+        },
+      );
       if (token) {
         tokenStorage.setToken(token.token);
         setIsAuthenticated(true);
@@ -33,14 +44,15 @@ export function AuthProvider({ children }: PropsWithChildren) {
         throw new Error("Error al obtener el token");
       }
     } catch (error: any) {
+      console.error(error.message);
       toast.error("Inicio de sesión incorrecto");
     }
-  }, []);
+  };
 
-  const logout = useCallback(() => {
+  const logout = () => {
     tokenStorage.clearToken();
     setIsAuthenticated(false);
-  }, []);
+  };
 
   const value = useMemo<AuthContextValue>(
     () => ({

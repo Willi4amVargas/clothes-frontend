@@ -24,6 +24,7 @@ import { useNavigate } from "react-router";
 export function LoginForm() {
   const { isAuthenticated, login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [disableBtn, setDisableBtn] = useState(false);
   const navigate = useNavigate();
 
   const form = useForm<LoginInput>({
@@ -34,8 +35,10 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit = (values: LoginInput) => {
-    login(values);
+  const onSubmit = async (values: LoginInput) => {
+    setDisableBtn(true);
+    await login(values);
+    setDisableBtn(false);
   };
 
   useEffect(() => {
@@ -126,6 +129,7 @@ export function LoginForm() {
             type="submit"
             form="login-form"
             className="w-full h-11 text-base font-medium transition-all active:scale-[0.98]"
+            disabled={disableBtn}
           >
             Iniciar Sesión
           </Button>

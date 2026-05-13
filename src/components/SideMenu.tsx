@@ -1,6 +1,5 @@
 import { useAuth } from "@/feature/auth/hooks/use-auth";
 import {
-  ChartBarIcon,
   GearSixIcon,
   HouseIcon,
   LifebuoyIcon,
@@ -73,11 +72,7 @@ export function SideMenu() {
       </div>
 
       <div className="px-3 py-4">
-        <ButtonLink
-          label="New Transaction"
-          to="/sales"
-          isOpen={isOpen}
-        />
+        <ButtonLink label="New Transaction" to="/sales" isOpen={isOpen} />
       </div>
 
       <nav className="flex-1 overflow-y-auto space-y-1 px-3">

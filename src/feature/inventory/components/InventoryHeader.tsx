@@ -13,12 +13,12 @@ export function InventoryHeader() {
           Manage inventory levels and pricing per unit
         </p>
       </div>
-      <div className="my-auto grid grid-cols-2 gap-x-6 mx-5">
+      <div className="my-auto grid grid-cols-2 ">
         <Button variant={"ghost"}>
           <ExportIcon />
           Export
         </Button>
-        <Button className="hover:bg-primary bg-primary/80" onClick={() => navigate("/inventory/new")}>
+        <Button className="bg-primary hover:bg-primary/90" onClick={() => navigate("/inventory/new")}>
           <PlusIcon /> New Product
         </Button>
       </div>
