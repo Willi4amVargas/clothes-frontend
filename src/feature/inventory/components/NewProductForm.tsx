@@ -53,6 +53,7 @@ export function NewProductForm({
 
   const handleAddUnit = () => {
     append({
+      id: 0,
       unit: "UNIDAD",
       cost: 0,
       price: 0,
@@ -212,11 +213,11 @@ export function NewProductForm({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {fields.map((field, index) => {
+              {fields.map((_, index) => {
                 const cost = watchedUnits?.[index]?.cost;
                 const price = watchedUnits?.[index]?.price;
                 return (
-                  <TableRow key={field.id}>
+                  <TableRow key={index}>
                     <TableCell>
                       <input
                         type="hidden"

@@ -12,6 +12,7 @@ import { PosTerminalPage } from "@/feature/sales/pages/PosTerminalPage";
 
 import { UserProfilePage } from "@/feature/user-profile/pages/UserProfilePage";
 import { UpdateProductPage } from "@/feature/inventory/pages/UpdateProductPage";
+import { RecoveryPasswordPage } from "@/feature/auth/pages/RecoveryPasswordPage";
 
 export const appRouter = createBrowserRouter([
   {
@@ -74,5 +75,10 @@ export const appRouter = createBrowserRouter([
     path: "/login",
     loader: loginLoader,
     element: <LoginPage />,
+  },
+  {
+    path: "/recovery-password",
+    loader: loginLoader,
+    element: <RecoveryPasswordPage />,
   },
 ]);

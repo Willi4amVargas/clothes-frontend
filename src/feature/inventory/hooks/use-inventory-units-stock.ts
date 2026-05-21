@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ProductUnit } from "../models/ProductsUnits";
 import type { Product } from "../models/Product";
 import { apiClient } from "@/shared/lib/api";
@@ -14,7 +14,7 @@ export function useInventoryUnitsStock() {
     InventoryWithUnitsAndStock | undefined
   >(undefined);
 
-  const getProductWithUnitsAndStock = async (product_id: number) => {
+  const getProductWithUnitsAndStock = useCallback(async (product_id: number) => {
     try {
       const productsUnits = await apiClient.get<InventoryWithUnitsAndStock>(
         "/products/" + product_id,
@@ -26,7 +26,7 @@ export function useInventoryUnitsStock() {
     } catch (error: any) {
       throw new Error(error);
     }
-  };
+  }, []);
 
   return {
     inventoryWithUnitsAndStock,

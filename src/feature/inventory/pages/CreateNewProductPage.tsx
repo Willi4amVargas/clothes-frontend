@@ -85,8 +85,9 @@ export function CreateNewProductPage() {
         <Alert variant="destructive" className="mb-6">
           <WarningCircleIcon className="h-4 w-4" weight="bold" />
           <AlertTitle>Validation Error</AlertTitle>
-          <AlertDescription>
-            Please fix the errors in the form before submitting.
+          <AlertDescription className="flex flex-col">
+            <span>Please fix the errors in the form before submitting.</span>
+            <span>{Object.keys(errors).map((e) => e)}</span>
           </AlertDescription>
         </Alert>
       )}

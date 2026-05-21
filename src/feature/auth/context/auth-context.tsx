@@ -1,6 +1,5 @@
 import {
   createContext,
-  useCallback,
   useMemo,
   useState,
   type PropsWithChildren,
@@ -9,6 +8,10 @@ import { tokenStorage } from "@/shared/lib/token";
 import type { LoginInput } from "../schemas/login.schema";
 import { toast } from "react-toastify";
 import { apiClient } from "@/shared/lib/api";
+import type {
+  RecoveryUser,
+  RecoveryUserPassword,
+} from "../schemas/recovery.schema";
 
 export type LoginResponse = {
   token: string;
@@ -19,6 +22,8 @@ type AuthContextValue = {
   isAuthenticated: boolean;
   login: (payload: LoginInput) => void;
   logout: () => void;
+  sendRecoveryMail: (payload: RecoveryUser) => void;
+  changePassword: (payload: RecoveryUserPassword) => void;
 };
 
 export const AuthContext = createContext<AuthContextValue | undefined>(
@@ -54,11 +59,38 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setIsAuthenticated(false);
   };
 
+  const sendRecoveryMail = async (payload: RecoveryUser) => {
+    try {
+      const mailDelivered = await apiClient.post<{ message: string }>(
+        "/recovery_password",
+        payload,
+        {
+          dryRun: false,
+          withAuth: false,
+        },
+      );
+      return mailDelivered;
+    } catch (error: any) {
+      console.error(error.message);
+      toast.error("Inicio de sesión incorrecto");
+    }
+  };
+
+  const changePassword = async (payload: RecoveryUserPassword) => {
+    const passwordChange = await apiClient.put("/recovery_password", payload, {
+      dryRun: false,
+      withAuth: false,
+    });
+    return passwordChange;
+  };
+
   const value = useMemo<AuthContextValue>(
     () => ({
       isAuthenticated,
       login,
       logout,
+      sendRecoveryMail,
+      changePassword,
     }),
     [logout, login, isAuthenticated],
   );

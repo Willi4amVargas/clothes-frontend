@@ -19,7 +19,7 @@ import { loginSchema, type LoginInput } from "../schemas/login.schema";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export function LoginForm() {
   const { isAuthenticated, login } = useAuth();
@@ -132,6 +132,9 @@ export function LoginForm() {
             disabled={disableBtn}
           >
             Iniciar Sesión
+          </Button>
+          <Button variant={"link"} asChild>
+            <Link to={"/recovery-password"}>¿Olvidaste tu contraseña?</Link>
           </Button>
         </form>
       </CardContent>

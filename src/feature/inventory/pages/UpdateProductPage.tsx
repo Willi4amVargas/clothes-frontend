@@ -58,6 +58,7 @@ export function UpdateProductPage() {
 
   useEffect(() => {
     if (inventoryWithUnitsAndStock) {
+      console.log("RESETEADO")
       reset({
         ...inventoryWithUnitsAndStock,
         products_units: inventoryWithUnitsAndStock.units.map((u) => ({
