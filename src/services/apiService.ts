@@ -6,6 +6,7 @@ type RequestOptions = {
   dryRun?: boolean
   withAuth?: boolean
   headers?: HeadersInit
+  stringify?: boolean
 }
 
 class APIService {
@@ -52,20 +53,22 @@ class APIService {
 
   private async request<TResponse>(
     path: string,
-    options: RequestOptions,
+    {
+      method = 'GET',
+      stringify = true,
+      dryRun = true,
+      withAuth = true,
+      ...options
+    }: RequestOptions = {},
   ): Promise<TResponse> {
-    const method = options.method ?? 'GET'
-    const dryRun = options.dryRun ?? true
-    const withAuth = options.withAuth ?? true
     const url = dryRun
       ? path
       : this.withQuery(path, { dry_run: String(dryRun) })
     const headers = new Headers(options.headers)
 
-    if (options.body !== undefined) {
+    if (stringify) {
       headers.set('Content-Type', 'application/json')
     }
-
     if (withAuth) {
       const token = tokenService.getToken()
       if (token) {
@@ -76,8 +79,8 @@ class APIService {
     const response = await fetch(`${this.baseUrl}${url}`, {
       method,
       headers,
-      body:
-        options.body !== undefined ? JSON.stringify(options.body) : undefined,
+      // @ts-ignore options.body trust the value works :D
+      body: stringify ? JSON.stringify(options.body) : options.body,
     })
 
     if (response.status === 401) {
@@ -90,9 +93,9 @@ class APIService {
     if (!response.ok) {
       const message =
         typeof responseBody === 'object' &&
-        responseBody !== null &&
-        'message' in responseBody &&
-        typeof responseBody.message === 'string'
+          responseBody !== null &&
+          'message' in responseBody &&
+          typeof responseBody.message === 'string'
           ? responseBody.message
           : 'Request failed'
 

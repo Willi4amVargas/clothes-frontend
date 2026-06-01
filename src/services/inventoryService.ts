@@ -12,6 +12,7 @@ export interface Products {
   origin: string
   buy_tax: number
   sale_tax: number
+  image_url?: string
 }
 
 export interface ProductsUnits {
@@ -44,9 +45,11 @@ class InventoryService {
   }
 
   createInventory = (
-    body: Omit<Products, 'id'> & {
-      products_units: Omit<ProductsUnits, 'id' | 'product_id'>[]
-    },
+    body:
+      | (Omit<Products, 'id'> & {
+        products_units: Omit<ProductsUnits, 'id' | 'product_id'>[]
+      })
+      | undefined,
   ) => {
     if (!body) throw new Error('Body is required')
     return apiService.post<
@@ -77,6 +80,37 @@ class InventoryService {
   deleteInventory = (id: number) => {
     return apiService.delete<{ message: string }>(
       `/products/${id}`,
+      {},
+      {
+        withAuth: true,
+        dryRun: false,
+      },
+    )
+  }
+
+  addInventoryImage = ({
+    id,
+    formData,
+  }: {
+    id: number
+    formData: FormData
+  }) => {
+    console.log(formData)
+    return apiService.post<{ message: string }>(
+      `/products/${id}/image`,
+      formData,
+      {
+        withAuth: true,
+        dryRun: false,
+        stringify: false
+        // headers: { 'Content-Type': 'multipart/form-data' }
+      },
+    )
+  }
+
+  deleteInventoryImage = (id: number) => {
+    return apiService.delete<{ message: string }>(
+      `/products/${id}/image`,
       {},
       {
         withAuth: true,

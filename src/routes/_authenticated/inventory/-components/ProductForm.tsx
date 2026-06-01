@@ -32,6 +32,7 @@ import {
   TrashIcon,
 } from '@phosphor-icons/react'
 import { useInventory } from '#/hook/useInventory'
+import { InventoryImageForm } from './InventoryImageForm'
 
 const origins = ['NACIONAL', 'IMPORTADO']
 
@@ -457,6 +458,20 @@ export const ProductForm = ({
               </div>
             </CardContent>
           </Card>
+          {defaultValues && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Product Image</CardTitle>
+              </CardHeader>
+              <CardContent className="h-[32dvh]">
+                <InventoryImageForm
+                  // @ts-ignore
+                  productId={defaultValues.id}
+                  image_url={defaultValues.image_url}
+                />
+              </CardContent>
+            </Card>
+          )}
           <div className="grid grid-cols-2 gap-4">
             {defaultValues && (
               <Button

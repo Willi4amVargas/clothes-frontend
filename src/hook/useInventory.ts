@@ -55,7 +55,33 @@ export const useInventory = () => {
     },
   })
 
-  return { inventory, createInventory, updateInventory, deleteInventory }
+  const addInventoryImage = useMutation({
+    mutationFn: inventoryService.addInventoryImage,
+    onSuccess: (data) => {
+      toast.success(data.message, {
+        toastId: 'add-inventory-image-success',
+      })
+    },
+    onError: ({ message }) => {
+      toast.error(message, {
+        toastId: 'add-inventory-image-error',
+      })
+    },
+  })
+
+  const removeInventoryImage = useMutation({
+    mutationFn: inventoryService.deleteInventoryImage,
+    onSuccess: (data) => {
+      toast.success(data.message)
+    },
+    onError: ({ message }) => {
+      toast.error(message, {
+        toastId: 'remove-inventory-image-error',
+      })
+    },
+  })
+
+  return { inventory, createInventory, updateInventory, deleteInventory, addInventoryImage, removeInventoryImage }
 }
 
 export const useInventoryDetails = (id: number | undefined) => {
