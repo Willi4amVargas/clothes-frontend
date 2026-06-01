@@ -3,14 +3,17 @@ import {
   CaretDownIcon,
   ClockCounterClockwiseIcon,
   MagnifyingGlassIcon,
-} from "@phosphor-icons/react";
-import type { ElementType } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from '@phosphor-icons/react'
+import type { ElementType } from 'react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Link } from '@tanstack/react-router'
 
-import { Link } from "react-router";
-
-const centerLinks = ["Inventory", "Orders", "Invoices"];
+const centerLinks = [
+  { label: 'Inventory', url: '/inventory' },
+  { label: 'Clients', url: '/clients' },
+  { label: 'Sales POS', url: '/sales' },
+]
 
 export function MainHeader() {
   return (
@@ -32,9 +35,15 @@ export function MainHeader() {
 
       <nav className="hidden items-center gap-4 text-xs text-slate-600 md:flex">
         {centerLinks.map((link) => (
-          <button key={link} type="button" className="hover:text-slate-900">
-            {link}
-          </button>
+          <Button
+            asChild
+            key={link.label}
+            type="button"
+            variant={"link"}
+            size={"xs"}
+          >
+            <Link to={link.url}>{link.label}</Link>
+          </Button>
         ))}
       </nav>
 
@@ -57,7 +66,7 @@ export function MainHeader() {
         </Link>
       </div>
     </header>
-  );
+  )
 }
 
 function IconShell({ icon: Icon }: { icon: ElementType }) {
@@ -68,5 +77,5 @@ function IconShell({ icon: Icon }: { icon: ElementType }) {
     >
       <Icon size={16} />
     </button>
-  );
+  )
 }
