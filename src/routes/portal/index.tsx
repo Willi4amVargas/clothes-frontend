@@ -8,11 +8,15 @@ import { Footer } from './-components/Footer'
 import { CartDrawer } from './-components/CartDrawer'
 import { CheckoutView } from './-components/CheckoutView'
 import { OrderSuccess } from './-components/OrderSuccess'
+import { FavoriteProvider } from './-components/FavoriteContext'
+import { FavoritesDialog } from './-components/FavoriteDialog'
 
 export const Route = createFileRoute('/portal/')({
   component: () => (
     <CartProvider>
-      <RouteComponent />
+      <FavoriteProvider>
+        <RouteComponent />
+      </FavoriteProvider>
     </CartProvider>
   ),
 })
@@ -36,6 +40,7 @@ function RouteComponent() {
       </main>
       <Footer />
       <CartDrawer />
+      <FavoritesDialog />
     </div>
   )
 }

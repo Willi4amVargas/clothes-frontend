@@ -16,6 +16,7 @@ import { useMarks } from '#/hook/useMark'
 import { RadioGroup, RadioGroupItem } from '#/components/ui/radio-group'
 import { Label } from '#/components/ui/label'
 import { useMemo, useState } from 'react'
+import { useFavorites } from './FavoriteContext'
 
 // Custom high-precision SVG blueprint drawings for industrial parts
 function ProductBlueprint({ image_url }: { image_url?: string }) {
@@ -31,9 +32,23 @@ export function Catalog() {
 
   const filteredInventory = useMemo(() => {
     if (!inventory.data) return [];
-    if (!selectedMark) return inventory.data
-    return inventory.data.filter((product) => product.mark === selectedMark);
-  }, [inventory.data, selectedMark]);
+
+    const inventoryDataTrue = [...inventory.data].filter((p) => p.status === true)
+
+    const result = selectedMark
+      ? inventoryDataTrue.filter((product) => product.mark === selectedMark)
+      : [...inventoryDataTrue];
+
+    if (orderBy) {
+      result.sort((a, b) => {
+        return orderBy === "name-low"
+          ? a.description.localeCompare(b.description)
+          : b.description.localeCompare(a.description);
+      });
+    }
+
+    return result;
+  }, [inventory.data, selectedMark, orderBy]);
 
   return (
     <section className="max-w-[1280px] mx-auto px-10 py-12 bg-surface">
@@ -54,8 +69,8 @@ export function Catalog() {
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent className="bg-surface-container-lowest border-outline rounded-[4px] text-xs">
-              <SelectItem value="price-low">Price: Low to High</SelectItem>
-              <SelectItem value="price-high">Price: High to Low</SelectItem>
+              <SelectItem value="name-low">Name: ASC</SelectItem>
+              <SelectItem value="name-high">Name: DESC</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -172,6 +187,7 @@ function FilterItem({ label }: { label: string; }) {
 
 function ProductCard({ product }: { product: Products }) {
   const { addToCart } = useCart()
+  const { favoriteItems, addToFavorite, removeFromFavorites } = useFavorites()
   const { inventoryDetails } = useInventoryDetails(product.id)
   const mainProductUnit = inventoryDetails.data?.units[0]
   if (!mainProductUnit) {
@@ -212,6 +228,30 @@ function ProductCard({ product }: { product: Products }) {
           : 'text-amber-600 bg-amber-50',
       dotColor: statusDotColor,
     })
+  }
+
+  const isFavorite = favoriteItems.some((item) => item.id === product.id)
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation() // Evita disparar eventos del contenedor/tarjeta si aplica
+
+    if (isFavorite) {
+      removeFromFavorites(product.id)
+    } else {
+      addToFavorite({
+        id: product.id,
+        brand: product.mark,
+        title: product.description,
+        sku: product.code,
+        price: mainProductUnit.price,
+        status: mainProductStock.stock >= 8 ? 'In Stock' : 'Low Stock',
+        statusColor:
+          mainProductStock.stock >= 8
+            ? 'text-green-600 bg-green-50'
+            : 'text-amber-600 bg-amber-50',
+        dotColor: statusDotColor,
+      })
+    }
   }
 
   return (
@@ -275,9 +315,22 @@ function ProductCard({ product }: { product: Products }) {
         <Button
           variant="outline"
           size="icon"
-          className="h-9 w-9 rounded-lg border-outline text-on-surface-variant hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-colors"
+          className={`h-9 w-9 rounded-lg border-outline transition-colors duration-200
+        ${isFavorite
+              ? 'bg-red-50 border-red-200 text-red-500 hover:bg-red-100 hover:border-red-300'
+              : 'text-on-surface-variant hover:text-red-500 hover:border-red-200 hover:bg-red-50'
+            }
+      `}
+          onClick={handleToggleFavorite}
+          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
         >
-          <HeartIcon size={16} />
+          {/* Si usas @phosphor-icons/react, puedes usar la propiedad weight="fill" 
+        Si usas Lucide, puedes pasar fill="currentColor" cuando esté activo
+      */}
+          <HeartIcon
+            size={16}
+            weight={isFavorite ? "fill" : "regular"}
+          />
         </Button>
       </CardFooter>
     </Card>

@@ -59,7 +59,7 @@ export const ProductForm = ({
   onDeleteButtonPress?: () => void
 }) => {
   // Estados para componentes controlados y dinámicos
-  const [status, setStatus] = useState<boolean>(defaultValues?.status || true)
+  const [status, setStatus] = useState<boolean>(defaultValues?.status ?? true)
   const [origin, setOrigin] = useState<string>(defaultValues?.origin || '')
   const [productUnits, setProductUnits] = useState<
     Omit<ProductsUnits, 'id' | 'product_id'>[]

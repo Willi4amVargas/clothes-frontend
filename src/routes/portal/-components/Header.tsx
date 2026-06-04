@@ -8,10 +8,12 @@ import { Button } from '#/components/ui/button'
 import { Link } from '@tanstack/react-router'
 import { useCart } from './CartContext'
 import { useState } from 'react'
+import { useFavorites } from './FavoriteContext'
 
 export function Header() {
   const COMPANY_NAME = import.meta.env.VITE_COMPANY_NAME
   const { cartItems, setCartDrawerOpen, setCurrentView } = useCart()
+  const { setFavoriteModalOpen } = useFavorites()
   const [searchQuery, setSearchQuery] = useState('')
 
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0)
@@ -36,7 +38,6 @@ export function Header() {
             </span>
           </div>
           <div className="flex gap-6 items-center">
-            <span className="cursor-pointer hover:text-neutral-300 transition-colors">ES / USD $</span>
             <Link to="#" className="hover:text-neutral-300 transition-colors border-l border-neutral-700 pl-4">
               Ayuda
             </Link>
@@ -96,6 +97,7 @@ export function Header() {
               size="icon"
               className="text-neutral-700 hover:text-black hover:bg-neutral-100 rounded-full relative"
               title="Mis Favoritos"
+              onClick={() => setFavoriteModalOpen(true)}
             >
               <HeartIcon size={22} />
             </Button>
