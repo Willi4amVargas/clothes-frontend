@@ -1,13 +1,11 @@
 import {
-  BellIcon,
-  CaretDownIcon,
-  ClockCounterClockwiseIcon,
   MagnifyingGlassIcon,
 } from '@phosphor-icons/react'
-import type { ElementType } from 'react'
+// import type { ElementType } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Link } from '@tanstack/react-router'
+import { useAuth } from '#/hook/useAuth'
 
 const centerLinks = [
   { label: 'Inventory', url: '/inventory' },
@@ -16,11 +14,14 @@ const centerLinks = [
 ]
 
 export function MainHeader() {
+  const { user } = useAuth()
   return (
     <header className="flex h-16 items-center gap-4 border-b border-slate-200 bg-white px-5">
-      <p className="min-w-fit text-sm font-semibold text-slate-900">
-        Global Operations
-      </p>
+      <Link to='/dashboard'>
+        <p className="min-w-fit text-sm font-semibold text-slate-900">
+          Global Operations
+        </p>
+      </Link>
 
       <div className="relative max-w-md flex-1">
         <MagnifyingGlassIcon
@@ -48,34 +49,34 @@ export function MainHeader() {
       </nav>
 
       <div className="ml-auto flex items-center gap-2">
-        <IconShell icon={BellIcon} />
-        <IconShell icon={ClockCounterClockwiseIcon} />
+        {/* <IconShell icon={BellIcon} />
+        <IconShell icon={ClockCounterClockwiseIcon} /> */}
 
-        <Button className="h-8 bg-primary px-3 text-xs font-medium text-white hover:bg-primary/90">
+        {/* <Button className="h-8 bg-primary px-3 text-xs font-medium text-white hover:bg-primary/90">
           Quick Add
-        </Button>
+        </Button> */}
 
         <Link
           to="/profile"
           className="flex items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5 hover:bg-slate-50 transition-colors"
         >
           <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-900 text-[11px] font-semibold text-white">
-            CR
+            {user?.description[0]}
           </div>
-          <CaretDownIcon size={12} className="text-slate-500" />
+          {/* <CaretDownIcon size={12} className="text-slate-500" /> */}
         </Link>
       </div>
     </header>
   )
 }
 
-function IconShell({ icon: Icon }: { icon: ElementType }) {
-  return (
-    <button
-      type="button"
-      className="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600"
-    >
-      <Icon size={16} />
-    </button>
-  )
-}
+// function IconShell({ icon: Icon }: { icon: ElementType }) {
+//   return (
+//     <button
+//       type="button"
+//       className="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600"
+//     >
+//       <Icon size={16} />
+//     </button>
+//   )
+// }

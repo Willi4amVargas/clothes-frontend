@@ -19,9 +19,9 @@ const countries = [
   'Brasil',
   'Chile',
   'Colombia',
-  'Espaa',
-  'Mxico',
-  'Per',
+  'España',
+  'Mexico',
+  'Peru',
   'Uruguay',
 ]
 
@@ -34,7 +34,7 @@ export function CreateClientForm() {
         <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b px-4 py-2.5">
           <div className="flex items-center gap-2">
             <IdentificationCardIcon className="h-4 w-4 text-primary" />
-            <CardTitle className="text-sm">Informacion Basica</CardTitle>
+            <CardTitle className="text-sm">Información Basica</CardTitle>
           </div>
           <div className="flex items-center gap-2">
             <Label
@@ -75,7 +75,6 @@ export function CreateClientForm() {
                 <SelectContent>
                   <SelectItem value="active">Activo</SelectItem>
                   <SelectItem value="inactive">Inactivo</SelectItem>
-                  <SelectItem value="on-hold">En Espera</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -85,7 +84,7 @@ export function CreateClientForm() {
               </Label>
               <Input
                 id="client-description"
-                placeholder="Corporacin Ejemplo S.A."
+                placeholder="Corporativa Ejemplo S.A."
               />
             </div>
             <div className="flex flex-col gap-1.5">
@@ -119,7 +118,7 @@ export function CreateClientForm() {
               <Label htmlFor="client-country">Pais</Label>
               <Select>
                 <SelectTrigger id="client-country">
-                  <SelectValue placeholder="Seleccione un pas" />
+                  <SelectValue placeholder="Seleccione un pais" />
                 </SelectTrigger>
                 <SelectContent>
                   {countries.map((country) => (
@@ -134,14 +133,14 @@ export function CreateClientForm() {
               <Label htmlFor="client-city">Ciudad</Label>
               <Input
                 id="client-city"
-                placeholder="Ciudad Autnoma de Buenos Aires"
+                placeholder="Ciudad Autonoma de Buenos Aires"
               />
             </div>
             <div className="col-span-2 flex flex-col gap-1.5">
               <Label htmlFor="client-address">Direccion Completa</Label>
               <Textarea
                 id="client-address"
-                placeholder="Calle, Nmero, Piso/Depto, Barrio..."
+                placeholder="Calle, Numero, Piso/Dep, Barrio..."
                 rows={3}
                 className="resize-none"
               />

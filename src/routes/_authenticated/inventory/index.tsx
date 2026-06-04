@@ -3,9 +3,10 @@ import { InventoryHeader } from './-components/InventoryHeader'
 import { InventoryList } from './-components/InventoryList'
 import { InventoryListUnits } from './-components/InventoryListUnits'
 import {
-  InventoryStatsCard,
-  type InventoryStatsCardProps,
+  InventoryStatsCard
+  
 } from './-components/InventoryStatsCard'
+import type {InventoryStatsCardProps} from './-components/InventoryStatsCard';
 import { useState } from 'react'
 
 export const Route = createFileRoute('/_authenticated/inventory/')({

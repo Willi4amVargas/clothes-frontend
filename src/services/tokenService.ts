@@ -1,5 +1,5 @@
 class TokenService {
-  constructor(private AUTH_TOKEN_KEY: string) {}
+  constructor(private AUTH_TOKEN_KEY: string = 'auth_token') { }
   getToken = () => {
     return localStorage.getItem(this.AUTH_TOKEN_KEY)
   }
@@ -11,4 +11,4 @@ class TokenService {
   }
 }
 
-export const tokenService = new TokenService('auth_token')
+export const tokenService = new TokenService()

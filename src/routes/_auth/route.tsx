@@ -1,4 +1,5 @@
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { Button } from '#/components/ui/button'
+import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_auth')({
   component: RouteComponent,
@@ -13,6 +14,9 @@ function RouteComponent() {
           Secure, scalable resource management for modern enterprises.
           Delivering precision and control at scale.
         </p>
+        <Button asChild variant={"link"} className='text-white w-1/8'>
+          <Link to='/portal'>Go to Portal</Link>
+        </Button>
       </section>
 
       <section className="flex items-center justify-center bg-slate-50 p-6">

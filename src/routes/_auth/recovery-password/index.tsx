@@ -1,7 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link  } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
-import { Link } from '@tanstack/react-router'
 import { SendMailForm } from './-components/SendMailForm'
 import { ChangePasswordForm } from './-components/ChangePasswordForm'
 

@@ -31,7 +31,6 @@ import {
   PlusIcon,
   TrashIcon,
 } from '@phosphor-icons/react'
-import { useInventory } from '#/hook/useInventory'
 import { InventoryImageForm } from './InventoryImageForm'
 
 const origins = ['NACIONAL', 'IMPORTADO']
@@ -128,8 +127,10 @@ export const ProductForm = ({
       }[] = []
       let hasUnitErrors = false
 
-      productUnits.forEach((unitItem, index) => {
+      for (let index = 0; index < productUnits.length; index++) {
+        const unitItem = productUnits[index]
         const rowErrors: { unit?: string; cost?: string; price?: string } = {}
+
         if (!unitItem.unit.trim()) {
           rowErrors.unit = 'Required'
           hasUnitErrors = true
@@ -142,8 +143,9 @@ export const ProductForm = ({
           rowErrors.price = 'Must be > 0'
           hasUnitErrors = true
         }
+
         unitErrorsArray[index] = rowErrors
-      })
+      }
 
       if (hasUnitErrors) {
         currentErrors.products_units = unitErrorsArray
@@ -304,7 +306,7 @@ export const ProductForm = ({
                 onClick={addUnit}
                 disabled={
                   defaultValues?.products_units &&
-                  defaultValues?.products_units.length > 0
+                  defaultValues.products_units.length > 0
                 }
               >
                 <PlusIcon weight="bold" />
@@ -465,7 +467,7 @@ export const ProductForm = ({
               </CardHeader>
               <CardContent className="h-[32dvh]">
                 <InventoryImageForm
-                  // @ts-ignore
+                  // @ts-ignore id comes with the default values :p i think
                   productId={defaultValues.id}
                   image_url={defaultValues.image_url}
                 />

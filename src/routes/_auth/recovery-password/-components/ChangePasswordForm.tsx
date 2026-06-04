@@ -9,12 +9,12 @@ export const ChangePasswordForm = ({ code }: { code: string }) => {
     const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
         const form = new FormData(e.target)
-        const code = form.get("code") as string
+        const codeInForm = form.get("code") as string
         const recovery_code = form.get("recovery_code") as string
         const new_password = form.get("new_password") as string
-        if (code || recovery_code || new_password) {
+        if (codeInForm || recovery_code || new_password) {
             await changeUserPassword.mutate({
-                code,
+                code: codeInForm,
                 recovery_code,
                 new_password
             })

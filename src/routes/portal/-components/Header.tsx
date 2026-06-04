@@ -44,7 +44,7 @@ export function Header() {
               Rastrear Pedido
             </Link>
             <Link to="/dashboard" className="hover:text-neutral-300 transition-colors">
-              Entrar al portal
+              Entrar al dashboard
             </Link>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import {
   CalendarIcon,
   CurrencyDollarIcon,
-  InfoIcon,
   MapPinIcon,
   PercentIcon,
   TimerIcon,
@@ -109,45 +108,6 @@ export function CreateClientSidebar() {
           </div>
         </CardContent>
       </Card>
-
-      <div className="rounded-none border border-outline-variant overflow-hidden">
-        <div className="aspect-4/3 w-full bg-muted/30 flex items-center justify-center">
-          <div className="flex flex-col items-center text-center p-4">
-            <div className="h-10 w-10 rounded-full bg-muted/50 flex items-center justify-center mb-2">
-              <MapPinIcon className="h-5 w-5 text-muted-foreground" />
-            </div>
-            <p className="text-[10px] uppercase tracking-wider text-muted-foreground/70 mb-0.5">
-              Contexto Regional
-            </p>
-            <p className="text-xs font-semibold text-muted-foreground">
-              Sede Principal
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between px-1 py-1.5 border border-outline-variant bg-muted/30">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1.5">
-            <UserPlusIcon className="h-3.5 w-3.5 text-muted-foreground" />
-            <span className="text-[11px] text-muted-foreground">
-              Creado por:{' '}
-              <span className="font-semibold text-primary">Admin_S01</span>
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <CalendarIcon className="h-3.5 w-3.5 text-muted-foreground" />
-            <span className="text-[11px] text-muted-foreground">
-              Fecha:{' '}
-              <span className="font-semibold text-primary">05 OCT 2026</span>
-            </span>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <TimerIcon className="h-3.5 w-3.5 text-muted-foreground" />
-          <span className="text-[11px] text-muted-foreground">Borrador</span>
-        </div>
-      </div>
     </div>
   )
 }

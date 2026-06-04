@@ -29,9 +29,9 @@ export function InventoryList({ setSelectedProduct }: { setSelectedProduct: Reac
     if (!query) return products
 
     return products.filter((item) => {
-      const code = item.code?.toLowerCase() || ""
-      const description = item.description?.toLowerCase() || ""
-      const model = item.model?.toLowerCase() || ""
+      const code = item.code.toLowerCase() || ""
+      const description = item.description.toLowerCase() || ""
+      const model = item.model.toLowerCase() || ""
 
       return code.includes(query) || description.includes(query) || model.includes(query)
     })

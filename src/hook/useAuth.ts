@@ -1,11 +1,17 @@
 import { authService } from '#/services/authService'
 import { tokenService } from '#/services/tokenService'
+import { userService } from '#/services/userService'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
+import { useMemo } from 'react'
 import { toast } from 'react-toastify'
 
 export const useAuth = () => {
   const navigate = useNavigate()
+  const user = useMemo(() => {
+    return userService.getToken()
+  }, [])
+  
   const login = useMutation({
     mutationFn: authService.login,
     onSuccess: async (data) => {
@@ -48,5 +54,5 @@ export const useAuth = () => {
       toast.error(message)
     }
   })
-  return { login, logout, sendRecoveryMail, changeUserPassword }
+  return { login, logout, sendRecoveryMail, changeUserPassword, user }
 }

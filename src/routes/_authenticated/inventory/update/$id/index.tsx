@@ -55,7 +55,7 @@ function RouteComponent() {
                 origin: e.origin,
                 buy_tax: e.buy_tax,
                 sale_tax: e.sale_tax,
-                // @ts-ignore
+                // @ts-ignore this value come in the value send
                 products_units: e.products_units,
               },
             })
