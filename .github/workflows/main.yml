@@ -25,7 +25,7 @@ jobs:
             echo "🚀 Iniciando despliegue automático..."
             cd /etc/sysred/frontend || exit
             echo "📥 Descargando nuevos cambios..."
-            git pull origin main
+            git pull
             echo "📦 Instalando dependencias..."
             pnpm install
             echo "🛠️ Compilando la aplicación..."
