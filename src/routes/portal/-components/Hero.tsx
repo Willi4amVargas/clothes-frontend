@@ -19,9 +19,9 @@ export function Hero() {
           </h1>
 
           <p className="text-sm text-on-surface-variant leading-relaxed font-normal">
-            Descubre prendas confeccionadas con tejidos premium, cortes impecables y
-            detalles pensados para resaltar tu confianza. Desde básicos elevados hasta
-            piezas de impacto para tus ocasiones especiales.
+            Discover garments crafted with premium fabrics, impeccable cuts, and
+            details designed to boost your confidence. From elevated basics to
+            statement pieces for your special occasions.
           </p>
 
           <div className="flex flex-wrap gap-3 pt-2">
