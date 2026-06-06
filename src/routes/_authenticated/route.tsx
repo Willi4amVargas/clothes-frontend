@@ -7,6 +7,13 @@ import { createFileRoute, Outlet } from '@tanstack/react-router'
 export const Route = createFileRoute('/_authenticated')({
   component: RouteComponent,
   loader: protectedLoader,
+  head: () => ({
+    meta: [
+      {
+        title: `${import.meta.env.VITE_COMPANY_NAME} | Dashboard`
+      }
+    ]
+  })
 })
 
 function RouteComponent() {

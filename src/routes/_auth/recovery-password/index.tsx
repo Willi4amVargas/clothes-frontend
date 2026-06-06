@@ -1,4 +1,4 @@
-import { createFileRoute, Link  } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
 import { Button } from '#/components/ui/button'
 import { SendMailForm } from './-components/SendMailForm'
@@ -14,7 +14,14 @@ export const Route = createFileRoute('/_auth/recovery-password/')({
     return {
       code: search.code as string
     }
-  }
+  },
+  head: () => ({
+    meta: [
+      {
+        title: `${import.meta.env.VITE_COMPANY_NAME} | Recovery Password`
+      }
+    ]
+  })
 })
 
 function RouteComponent() {

@@ -19,6 +19,13 @@ export const Route = createFileRoute('/portal/')({
       </FavoriteProvider>
     </CartProvider>
   ),
+  head: () => ({
+    meta: [
+      {
+        title: `${import.meta.env.VITE_COMPANY_NAME} | ${import.meta.env.VITE_COMPANY_SLOGAN}`
+      }
+    ]
+  })
 })
 
 function RouteComponent() {

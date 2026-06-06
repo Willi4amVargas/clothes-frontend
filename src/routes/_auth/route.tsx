@@ -3,6 +3,13 @@ import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_auth')({
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        title: `${import.meta.env.VITE_COMPANY_NAME} | Login Page`
+      }
+    ]
+  })
 })
 
 function RouteComponent() {
