@@ -9,6 +9,7 @@ jobs:
   deploy:
     name: Deploy to VPS
     runs-on: ubuntu-latest
+    environment: VPS
 
     steps:
       - name: Ejecutar comandos de despliegue en el VPS
