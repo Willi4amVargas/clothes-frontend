@@ -14,8 +14,8 @@ export function Hero() {
           </span>
 
           <h1 className="text-4xl lg:text-[46px] font-serif tracking-tight text-on-surface leading-tight">
-            Diseños que inspiran <br />
-            <span className="text-neutral-900 font-light italic">tu esencia y elegancia</span>
+            Designs that inspire <br />
+            <span className="text-neutral-900 font-light italic">your essence and elegance</span>
           </h1>
 
           <p className="text-sm text-on-surface-variant leading-relaxed font-normal">
