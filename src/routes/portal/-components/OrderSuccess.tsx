@@ -1,6 +1,6 @@
 import { useCart } from './CartContext'
 import { Button } from '#/components/ui/button'
-import { CheckCircleIcon, PrinterIcon, ArrowLeftIcon, FileTextIcon } from '@phosphor-icons/react'
+import { CheckCircleIcon, PrinterIcon, ArrowLeftIcon } from '@phosphor-icons/react'
 
 export function OrderSuccess() {
   const { orderData, setCurrentView } = useCart()
@@ -157,13 +157,13 @@ export function OrderSuccess() {
             <ArrowLeftIcon size={14} />
             Return to Catalog
           </Button>
-          <Button 
+          {/* <Button 
             variant="outline" 
             className="border-outline text-secondary hover:text-primary font-semibold h-10 rounded-[4px] text-xs uppercase tracking-wider px-6"
           >
             <FileTextIcon size={14} className="mr-1.5" />
             CAD Models (.STEP)
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>
