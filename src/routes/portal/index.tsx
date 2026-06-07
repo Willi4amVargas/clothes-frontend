@@ -34,7 +34,7 @@ function RouteComponent() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans flex flex-col relative overflow-x-hidden">
       <Header />
-      <main className="flex-grow">
+      <main className="grow">
         {currentView === 'shop' && (
           <>
             <Hero />

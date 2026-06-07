@@ -10,8 +10,8 @@ import {
 } from '#/components/ui/select'
 import { Separator } from '#/components/ui/separator'
 import { useCart } from './CartContext'
-import { useInventory, useInventoryDetails } from '#/hook/useInventory'
-import type { Products } from '#/services/inventoryService'
+import { useInventory } from '#/hook/useInventory'
+import type { ProductWithDetails } from '#/services/inventoryService'
 import { useMarks } from '#/hook/useMark'
 import { RadioGroup, RadioGroupItem } from '#/components/ui/radio-group'
 import { Label } from '#/components/ui/label'
@@ -51,7 +51,7 @@ export function Catalog() {
   }, [inventory.data, selectedMark, orderBy]);
 
   return (
-    <section className="max-w-[1280px] mx-auto px-10 py-12 bg-surface">
+    <section className="max-w-7xl mx-auto px-10 py-12 bg-surface">
       {/* Top Controls Bar */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-outline-variant pb-6">
         <div className="text-xs text-on-surface-variant">
@@ -185,15 +185,14 @@ function FilterItem({ label }: { label: string; }) {
   )
 }
 
-function ProductCard({ product }: { product: Products }) {
+function ProductCard({ product }: { product: ProductWithDetails }) {
   const { addToCart } = useCart()
   const { favoriteItems, addToFavorite, removeFromFavorites } = useFavorites()
-  const { inventoryDetails } = useInventoryDetails(product.id)
-  const mainProductUnit = inventoryDetails.data?.units[0]
+  const mainProductUnit = product?.units[0]
   if (!mainProductUnit) {
     return <span>Cargando unidades...</span>
   }
-  const mainProductStock = inventoryDetails.data?.stock.filter(
+  const mainProductStock = product.stock.filter(
     (e) => e.unit === mainProductUnit.id,
   )[0]
   if (!mainProductStock) {

@@ -7,6 +7,14 @@ export const Route = createFileRoute('/')({
     })
   },
   component: RouteComponent,
+  head: () => ({
+    links: [
+      {
+        rel: 'icon',
+        href: '/favicon.ico',
+      },
+    ],
+  })
 })
 
 function RouteComponent() {

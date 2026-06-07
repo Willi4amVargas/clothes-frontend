@@ -2,10 +2,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import { InventoryHeader } from './-components/InventoryHeader'
 import { InventoryList } from './-components/InventoryList'
 import { InventoryListUnits } from './-components/InventoryListUnits'
-import {
-  InventoryStatsCard
+// import {
+//   InventoryStatsCard
   
-} from './-components/InventoryStatsCard'
+// } from './-components/InventoryStatsCard'
 import type {InventoryStatsCardProps} from './-components/InventoryStatsCard';
 import { useState } from 'react'
 
@@ -13,32 +13,32 @@ export const Route = createFileRoute('/_authenticated/inventory/')({
   component: RouteComponent,
 })
 
-const inventoryStats: InventoryStatsCardProps[] = [
-  {
-    title: 'Total SKUs',
-    value: '4,281',
-    trendLabel: '',
-    trendTone: 'neutral',
-  },
-  {
-    title: 'Low Stock Alerts',
-    value: '24',
-    trendLabel: 'items need attention',
-    trendTone: 'negative',
-  },
-  {
-    title: 'Total Inventory Value',
-    value: '$1.2M',
-    trendLabel: '',
-    trendTone: 'neutral',
-  },
-  {
-    title: 'Recent Operations',
-    value: '142',
-    trendLabel: 'today',
-    trendTone: 'neutral',
-  },
-]
+// const inventoryStats: InventoryStatsCardProps[] = [
+//   {
+//     title: 'Total SKUs',
+//     value: '4,281',
+//     trendLabel: '',
+//     trendTone: 'neutral',
+//   },
+//   {
+//     title: 'Low Stock Alerts',
+//     value: '24',
+//     trendLabel: 'items need attention',
+//     trendTone: 'negative',
+//   },
+//   {
+//     title: 'Total Inventory Value',
+//     value: '$1.2M',
+//     trendLabel: '',
+//     trendTone: 'neutral',
+//   },
+//   {
+//     title: 'Recent Operations',
+//     value: '142',
+//     trendLabel: 'today',
+//     trendTone: 'neutral',
+//   },
+// ]
 
 function RouteComponent() {
   const [selectProduct, setSelectProduct] = useState<number | undefined>(undefined)

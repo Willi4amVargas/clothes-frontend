@@ -20,14 +20,14 @@ import {
   PackageIcon,
 } from '@phosphor-icons/react'
 import { Link } from '@tanstack/react-router'
-import { useInventoryDetails } from '#/hook/useInventory'
+import { useInventory } from '#/hook/useInventory'
 
 export const InventoryListUnits = ({
   selectProduct,
 }: {
   selectProduct: number | undefined
 }) => {
-  const { inventoryDetails } = useInventoryDetails(selectProduct)
+  const { inventory } = useInventory()
 
   if (!selectProduct) {
     return (
@@ -46,10 +46,10 @@ export const InventoryListUnits = ({
     )
   }
 
-  if (inventoryDetails.isLoading) {
+  if (inventory.isLoading) {
     return (
       <Card className="mx-auto animate-pulse">
-        <CardHeader className="flex flex-row items-center justify-between border-b border-border h-[69px]">
+        <CardHeader className="flex flex-row items-center justify-between border-b border-border h-17.25">
           <div className="flex items-center gap-3">
             <CircleNotchIcon className="h-5 w-5 animate-spin text-primary" />
             <div className="h-5 w-24 bg-muted rounded" />
@@ -68,7 +68,7 @@ export const InventoryListUnits = ({
     )
   }
 
-  if (inventoryDetails.isError) {
+  if (inventory.isError) {
     return (
       <Card className="mx-auto border-destructive/50 bg-destructive/5 p-6 text-center">
         <h3 className="text-sm font-semibold text-destructive">
@@ -81,30 +81,42 @@ export const InventoryListUnits = ({
       </Card>
     )
   }
+
+  if (!inventory.data) {
+    return (
+      <Card className="mx-auto border-destructive/50 bg-destructive/5 p-6 text-center">
+        <h3 className="text-sm font-semibold text-destructive">
+          Error al cargar detalles
+        </h3>
+        <p className="text-xs text-muted-foreground mt-1">
+          No se pudieron recuperar los datos de este producto. Intente
+          seleccionarlo nuevamente.
+        </p>
+      </Card>
+    )
+  }
+
+  const product = inventory.data.find((item) => item.id === selectProduct)
+
   return (
     <Card className="mx-auto">
       <CardHeader className="flex flex-row items-center justify-between border-b border-border">
         <CardTitle className="text-xl font-semibold text-foreground">
-          {inventoryDetails.data?.referenc}
+          {product?.referenc}
         </CardTitle>
         <CardDescription className="text-sm font-medium text-muted-foreground">
-          {inventoryDetails.data?.code}
+          {product?.code}
         </CardDescription>
-        {inventoryDetails.data && (
-          <Button asChild variant={'link'} className="w-1/4">
-            <Link
-              to={'/inventory/update/$id'}
-              params={{ id: `${inventoryDetails.data.id}` }}
-            >
-              Details <ArrowRightIcon />
-            </Link>
-          </Button>
-        )}
+        <Button asChild variant={'link'} className="w-1/4">
+          <Link to={'/inventory/update/$id'} params={{ id: `${product?.id}` }}>
+            Details <ArrowRightIcon />
+          </Link>
+        </Button>
       </CardHeader>
 
       <CardContent className="p-5 space-y-4">
         <h3 className="text-xl font-semibold text-foreground pt-1">
-          {inventoryDetails.data?.description}
+          {product?.description}
         </h3>
 
         <Table className="border-t border-border">
@@ -125,8 +137,8 @@ export const InventoryListUnits = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {inventoryDetails.data &&
-              inventoryDetails.data.units.map((unit) => (
+            {product &&
+              product.units.map((unit) => (
                 <TableRow
                   key={unit.id}
                   className="border-b border-dotted border-border last:border-b-0 hover:bg-zinc-50/50"
@@ -142,9 +154,8 @@ export const InventoryListUnits = ({
                   </TableCell>
                   <TableCell className="text-sm font-semibold text-primary-600 text-right">
                     {
-                      inventoryDetails.data.stock.find(
-                        (stock) => stock.unit === unit.id,
-                      )?.stock
+                      product.stock.find((stock) => stock.unit === unit.id)
+                        ?.stock
                     }
                   </TableCell>
                 </TableRow>

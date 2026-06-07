@@ -29,32 +29,36 @@ export interface ProductsStock {
   stock: number
 }
 
+export type ProductWithDetails = Products & {
+  units: ProductsUnits[]
+  stock: ProductsStock[]
+}
+
 class InventoryService {
   getInventory = () => {
-    return apiService.get<Products[]>('/products', {
-      withAuth: true,
-      dryRun: false,
-    })
+    return apiService.get<ProductWithDetails[]>(
+      '/products?units=true&stock=true',
+      {
+        withAuth: false,
+        dryRun: false,
+      },
+    )
   }
 
   getInventoryDetails = (id: number | undefined) => {
     if (!id) throw new Error('ID is required')
-    return apiService.get<
-      Products & { units: ProductsUnits[]; stock: ProductsStock[] }
-    >(`/products/${id}`)
+    return apiService.get<ProductWithDetails>(`/products/${id}`)
   }
 
   createInventory = (
     body:
       | (Omit<Products, 'id'> & {
-        products_units: Omit<ProductsUnits, 'id' | 'product_id'>[]
-      })
+          products_units: Omit<ProductsUnits, 'id' | 'product_id'>[]
+        })
       | undefined,
   ) => {
     if (!body) throw new Error('Body is required')
-    return apiService.post<
-      Products & { units: ProductsUnits[]; stock: ProductsStock[] }
-    >('/products', body, {
+    return apiService.post<ProductWithDetails>('/products', body, {
       withAuth: true,
       dryRun: false,
     })
@@ -102,7 +106,7 @@ class InventoryService {
       {
         withAuth: true,
         dryRun: false,
-        stringify: false
+        stringify: false,
         // headers: { 'Content-Type': 'multipart/form-data' }
       },
     )
