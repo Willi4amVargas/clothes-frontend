@@ -13,7 +13,7 @@ function RouteComponent() {
   const { updateInventory, deleteInventory } = useInventory()
   const { inventoryDetails } = useInventoryDetails(+id)
   return (
-    <div className="mx-5 pb-10">
+    <div className={`mx-5 pb-10 ${inventoryDetails.data ? '' : 'text-center'}`}>
       <div className="mb-4 flex flex-col gap-2">
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
           <Button asChild variant="link">
@@ -69,8 +69,8 @@ function RouteComponent() {
           }
         />
       ) : (
-        <span className="text-destructive text-center">
-          El producto no existe
+        <span className="text-primary text-center ">
+          Cargando producto...
         </span>
       )}
     </div>
