@@ -56,14 +56,14 @@ class APIService {
     {
       method = 'GET',
       stringify = true,
-      dryRun = true,
+      dryRun = false,
       withAuth = true,
       ...options
     }: RequestOptions = {},
   ): Promise<TResponse> {
     const url = dryRun
       ? path
-      : this.withQuery(path, { dry_run: String(dryRun) })
+      : this.withQuery(path, { dry_run: 'false' })
     const headers = new Headers(options.headers)
 
     if (stringify) {

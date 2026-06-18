@@ -3,6 +3,7 @@ import { ArrowLeftIcon } from '@phosphor-icons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { ProductForm } from '../-components/ProductForm'
 import { useInventory } from '#/hook/useInventory'
+import { BreadcrumbMain } from '#/components/BreadcrumbMain'
 
 export const Route = createFileRoute('/_authenticated/inventory/new/')({
   component: RouteComponent,
@@ -13,15 +14,11 @@ function RouteComponent() {
   return (
     <div className="mx-5 pb-10">
       <div className="mb-4 flex flex-col gap-2">
-        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Button asChild variant="link">
-            <Link to="/inventory">Inventory</Link>
-          </Button>
-          <span>/</span>
-          <Button asChild variant={'link'}>
-            <span className="text-foreground font-medium">New Product</span>
-          </Button>
-        </div>
+        <BreadcrumbMain
+          main="New Product"
+          routes={[{ to: '/inventory', name: 'Inventario' }]}
+        />
+
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-slate-900">
             Create New Product

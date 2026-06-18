@@ -22,8 +22,11 @@ import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authent
 import { Route as AuthRecoveryPasswordIndexRouteImport } from './routes/_auth/recovery-password/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/_auth/login/index'
 import { Route as AuthenticatedSalesNewIndexRouteImport } from './routes/_authenticated/sales/new/index'
+import { Route as AuthenticatedInventoryOperationsIndexRouteImport } from './routes/_authenticated/inventory/operations/index'
 import { Route as AuthenticatedInventoryNewIndexRouteImport } from './routes/_authenticated/inventory/new/index'
 import { Route as AuthenticatedClientsNewIndexRouteImport } from './routes/_authenticated/clients/new/index'
+import { Route as AuthenticatedInventoryOperationsNewRouteImport } from './routes/_authenticated/inventory/operations/new'
+import { Route as AuthenticatedInventoryOperationsIdRouteImport } from './routes/_authenticated/inventory/operations/$id'
 import { Route as AuthenticatedInventoryUpdateIdIndexRouteImport } from './routes/_authenticated/inventory/update/$id/index'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -96,6 +99,12 @@ const AuthenticatedSalesNewIndexRoute =
     path: '/sales/new/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedInventoryOperationsIndexRoute =
+  AuthenticatedInventoryOperationsIndexRouteImport.update({
+    id: '/inventory/operations/',
+    path: '/inventory/operations/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInventoryNewIndexRoute =
   AuthenticatedInventoryNewIndexRouteImport.update({
     id: '/inventory/new/',
@@ -106,6 +115,18 @@ const AuthenticatedClientsNewIndexRoute =
   AuthenticatedClientsNewIndexRouteImport.update({
     id: '/clients/new/',
     path: '/clients/new/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryOperationsNewRoute =
+  AuthenticatedInventoryOperationsNewRouteImport.update({
+    id: '/inventory/operations/new',
+    path: '/inventory/operations/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryOperationsIdRoute =
+  AuthenticatedInventoryOperationsIdRouteImport.update({
+    id: '/inventory/operations/$id',
+    path: '/inventory/operations/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedInventoryUpdateIdIndexRoute =
@@ -126,8 +147,11 @@ export interface FileRoutesByFullPath {
   '/profile/': typeof AuthenticatedProfileIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/inventory/operations/$id': typeof AuthenticatedInventoryOperationsIdRoute
+  '/inventory/operations/new': typeof AuthenticatedInventoryOperationsNewRoute
   '/clients/new/': typeof AuthenticatedClientsNewIndexRoute
   '/inventory/new/': typeof AuthenticatedInventoryNewIndexRoute
+  '/inventory/operations/': typeof AuthenticatedInventoryOperationsIndexRoute
   '/sales/new/': typeof AuthenticatedSalesNewIndexRoute
   '/inventory/update/$id/': typeof AuthenticatedInventoryUpdateIdIndexRoute
 }
@@ -142,8 +166,11 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
+  '/inventory/operations/$id': typeof AuthenticatedInventoryOperationsIdRoute
+  '/inventory/operations/new': typeof AuthenticatedInventoryOperationsNewRoute
   '/clients/new': typeof AuthenticatedClientsNewIndexRoute
   '/inventory/new': typeof AuthenticatedInventoryNewIndexRoute
+  '/inventory/operations': typeof AuthenticatedInventoryOperationsIndexRoute
   '/sales/new': typeof AuthenticatedSalesNewIndexRoute
   '/inventory/update/$id': typeof AuthenticatedInventoryUpdateIdIndexRoute
 }
@@ -161,8 +188,11 @@ export interface FileRoutesById {
   '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/_authenticated/inventory/operations/$id': typeof AuthenticatedInventoryOperationsIdRoute
+  '/_authenticated/inventory/operations/new': typeof AuthenticatedInventoryOperationsNewRoute
   '/_authenticated/clients/new/': typeof AuthenticatedClientsNewIndexRoute
   '/_authenticated/inventory/new/': typeof AuthenticatedInventoryNewIndexRoute
+  '/_authenticated/inventory/operations/': typeof AuthenticatedInventoryOperationsIndexRoute
   '/_authenticated/sales/new/': typeof AuthenticatedSalesNewIndexRoute
   '/_authenticated/inventory/update/$id/': typeof AuthenticatedInventoryUpdateIdIndexRoute
 }
@@ -179,8 +209,11 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/sales/'
     | '/settings/'
+    | '/inventory/operations/$id'
+    | '/inventory/operations/new'
     | '/clients/new/'
     | '/inventory/new/'
+    | '/inventory/operations/'
     | '/sales/new/'
     | '/inventory/update/$id/'
   fileRoutesByTo: FileRoutesByTo
@@ -195,8 +228,11 @@ export interface FileRouteTypes {
     | '/profile'
     | '/sales'
     | '/settings'
+    | '/inventory/operations/$id'
+    | '/inventory/operations/new'
     | '/clients/new'
     | '/inventory/new'
+    | '/inventory/operations'
     | '/sales/new'
     | '/inventory/update/$id'
   id:
@@ -213,8 +249,11 @@ export interface FileRouteTypes {
     | '/_authenticated/profile/'
     | '/_authenticated/sales/'
     | '/_authenticated/settings/'
+    | '/_authenticated/inventory/operations/$id'
+    | '/_authenticated/inventory/operations/new'
     | '/_authenticated/clients/new/'
     | '/_authenticated/inventory/new/'
+    | '/_authenticated/inventory/operations/'
     | '/_authenticated/sales/new/'
     | '/_authenticated/inventory/update/$id/'
   fileRoutesById: FileRoutesById
@@ -319,6 +358,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSalesNewIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/inventory/operations/': {
+      id: '/_authenticated/inventory/operations/'
+      path: '/inventory/operations'
+      fullPath: '/inventory/operations/'
+      preLoaderRoute: typeof AuthenticatedInventoryOperationsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inventory/new/': {
       id: '/_authenticated/inventory/new/'
       path: '/inventory/new'
@@ -331,6 +377,20 @@ declare module '@tanstack/react-router' {
       path: '/clients/new'
       fullPath: '/clients/new/'
       preLoaderRoute: typeof AuthenticatedClientsNewIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory/operations/new': {
+      id: '/_authenticated/inventory/operations/new'
+      path: '/inventory/operations/new'
+      fullPath: '/inventory/operations/new'
+      preLoaderRoute: typeof AuthenticatedInventoryOperationsNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory/operations/$id': {
+      id: '/_authenticated/inventory/operations/$id'
+      path: '/inventory/operations/$id'
+      fullPath: '/inventory/operations/$id'
+      preLoaderRoute: typeof AuthenticatedInventoryOperationsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/inventory/update/$id/': {
@@ -364,8 +424,11 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
   AuthenticatedSalesIndexRoute: typeof AuthenticatedSalesIndexRoute
   AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
+  AuthenticatedInventoryOperationsIdRoute: typeof AuthenticatedInventoryOperationsIdRoute
+  AuthenticatedInventoryOperationsNewRoute: typeof AuthenticatedInventoryOperationsNewRoute
   AuthenticatedClientsNewIndexRoute: typeof AuthenticatedClientsNewIndexRoute
   AuthenticatedInventoryNewIndexRoute: typeof AuthenticatedInventoryNewIndexRoute
+  AuthenticatedInventoryOperationsIndexRoute: typeof AuthenticatedInventoryOperationsIndexRoute
   AuthenticatedSalesNewIndexRoute: typeof AuthenticatedSalesNewIndexRoute
   AuthenticatedInventoryUpdateIdIndexRoute: typeof AuthenticatedInventoryUpdateIdIndexRoute
 }
@@ -377,8 +440,14 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
   AuthenticatedSalesIndexRoute: AuthenticatedSalesIndexRoute,
   AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
+  AuthenticatedInventoryOperationsIdRoute:
+    AuthenticatedInventoryOperationsIdRoute,
+  AuthenticatedInventoryOperationsNewRoute:
+    AuthenticatedInventoryOperationsNewRoute,
   AuthenticatedClientsNewIndexRoute: AuthenticatedClientsNewIndexRoute,
   AuthenticatedInventoryNewIndexRoute: AuthenticatedInventoryNewIndexRoute,
+  AuthenticatedInventoryOperationsIndexRoute:
+    AuthenticatedInventoryOperationsIndexRoute,
   AuthenticatedSalesNewIndexRoute: AuthenticatedSalesNewIndexRoute,
   AuthenticatedInventoryUpdateIdIndexRoute:
     AuthenticatedInventoryUpdateIdIndexRoute,

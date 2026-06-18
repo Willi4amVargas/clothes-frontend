@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button'
-import { ExportIcon, PlusIcon } from '@phosphor-icons/react'
+import { ExportIcon, PlusIcon, StackPlusIcon } from '@phosphor-icons/react'
 import { Link } from '@tanstack/react-router'
 
 export function InventoryHeader() {
   return (
-    <div className="flex justify-between ">
+    <div className="flex justify-between items-center mb-6">
       <div>
         <h1 className="text-2xl font-semibold text-slate-900">
           Products & Multi-Unit Stock
@@ -13,10 +13,20 @@ export function InventoryHeader() {
           Manage inventory levels and pricing per unit
         </p>
       </div>
-      <div className="my-auto grid grid-cols-2 ">
+      <div className="flex gap-2">
         <Button variant={'ghost'}>
           <ExportIcon />
           Export
+        </Button>
+        <Button asChild variant={"outline"}>
+          <Link to="/inventory/operations">
+            <StackPlusIcon /> Operations
+          </Link>
+        </Button>
+        <Button asChild variant={"secondary"}>
+          <Link to="/inventory/operations/new">
+            <StackPlusIcon /> Load / Download
+          </Link>
         </Button>
         <Button asChild className="bg-primary hover:bg-primary/90">
           <Link to="/inventory/new">
