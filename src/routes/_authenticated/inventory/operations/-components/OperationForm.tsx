@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { useInventory } from '#/hook/useInventory'
 import { useCreateInventoryOperation } from '#/hook/useInventoryOperation'
@@ -8,14 +8,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
 import {
   Select,
   SelectContent,
@@ -39,7 +31,6 @@ import {
   List,
   CheckIcon,
   Calculator,
-  ArrowLeft,
 } from 'lucide-react'
 import { toast } from 'react-toastify'
 import {
@@ -234,7 +225,7 @@ export function OperationForm() {
                 type="button"
                 onClick={(_) => handleSubmit({ dryRun: true })}
                 disabled={createOperation.isPending}
-              // className="bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+                // className="bg-blue-600 hover:bg-blue-700 text-white rounded-md"
               >
                 <Calculator className="mr-2 h-4 w-4" />
                 Validar carga
@@ -245,7 +236,7 @@ export function OperationForm() {
                 form="inventory-operation-form"
                 disabled={createOperation.isPending}
                 variant={'secondary'}
-              // className="bg-[#0f285c] hover:bg-[#0f285c]/90 text-white rounded-md"
+                // className="bg-[#0f285c] hover:bg-[#0f285c]/90 text-white rounded-md"
               >
                 <CheckIcon className="mr-2 h-4 w-4" />
                 Confirmar Carga
@@ -385,9 +376,9 @@ export function OperationForm() {
                     const newStock =
                       currentStock !== null
                         ? getNewStock(
-                          currentStock,
-                          operationType === 'LOAD' ? row.amount : -row.amount,
-                        )
+                            currentStock,
+                            operationType === 'LOAD' ? row.amount : -row.amount,
+                          )
                         : null
 
                     return (

@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { OperationForm } from './-components/OperationForm'
+import { OperationForm } from '../-components/OperationForm'
 
-export const Route = createFileRoute('/_authenticated/inventory/operations/new')({
+export const Route = createFileRoute(
+  '/_authenticated/inventory/operations/new/',
+)({
   component: RouteComponent,
 })
 
