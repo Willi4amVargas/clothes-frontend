@@ -1,14 +1,27 @@
+import type { GetInventoryParams } from '#/services/inventoryService'
 import { inventoryService } from '#/services/inventoryService'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { toast } from 'react-toastify'
+
+export const useInventoryMultiple = (params: GetInventoryParams) => {
+  const inventory = useQuery({
+    queryKey: ['inventory'],
+    queryFn: () => inventoryService.getInventory(params),
+  })
+  return { inventory }
+}
 
 export const useInventory = () => {
   const navigate = useNavigate()
 
   const inventory = useQuery({
     queryKey: ['inventory'],
-    queryFn: inventoryService.getInventory,
+    queryFn: () =>
+      inventoryService.getInventory({
+        units: true,
+        stock: true,
+      }),
   })
 
   const createInventory = useMutation({
@@ -81,7 +94,14 @@ export const useInventory = () => {
     },
   })
 
-  return { inventory, createInventory, updateInventory, deleteInventory, addInventoryImage, removeInventoryImage }
+  return {
+    inventory,
+    createInventory,
+    updateInventory,
+    deleteInventory,
+    addInventoryImage,
+    removeInventoryImage,
+  }
 }
 
 export const useInventoryDetails = (id: number | undefined) => {

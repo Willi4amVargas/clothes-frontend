@@ -35,16 +35,18 @@ import {
 import { toast } from 'react-toastify'
 import {
   Command,
+  CommandDialog,
   CommandEmpty,
+  CommandInput,
   CommandItem,
   CommandList,
 } from '#/components/ui/command'
-import { CommandInput } from 'cmdk'
 import { BreadcrumbMain } from '#/components/BreadcrumbMain'
+import type { Products } from '#/services/inventoryService'
 
 type DetailRow = {
   id: string
-  product_id: string
+  product_id: number
   unit: number
   amount: number
   notes?: string
@@ -76,15 +78,15 @@ export function OperationForm() {
   const [description, setDescription] = useState('')
 
   const [details, setDetails] = useState<DetailRow[]>([
-    { id: generateUUID(), product_id: '', unit: 0, amount: 0, notes: '' },
+    { id: generateUUID(), product_id: 0, unit: 0, amount: 0, notes: '' },
   ])
 
   const [searchInputValue, setSearchInputValue] = useState('')
-  const [showResults, setShowResults] = useState(false)
+  const [openSearchDialog, setOpenSearchDialog] = useState(false)
 
   const products = Array.isArray(inventory.data) ? inventory.data : []
 
-  const totalItems = details.filter((d) => d.product_id !== '').length
+  const totalItems = details.filter((d) => d.product_id !== 0).length
   const totalUnits = details.reduce(
     (acc, curr) => acc + (Number(curr.amount) || 0),
     0,
@@ -96,12 +98,15 @@ export function OperationForm() {
     : null
 
   const handleAddRow = (detail?: DetailRow) => {
-    setDetails([
-      ...details,
-      detail
-        ? detail
-        : { id: generateUUID(), product_id: '', unit: 0, amount: 0, notes: '' },
-    ])
+    const newRow = detail ?? {
+      id: generateUUID(),
+      product_id: 0,
+      unit: 0,
+      amount: 0,
+      notes: '',
+    }
+
+    setDetails((prevDetails) => [...prevDetails, newRow])
   }
 
   const handleRemoveRow = (id: string) => {
@@ -172,9 +177,9 @@ export function OperationForm() {
     })
   }
 
-  const getCurrentStock = (productId: string, unitId: number) => {
+  const getCurrentStock = (productId: number, unitId: number) => {
     if (!productId || !unitId) return null
-    const product = products.find((p) => p.id.toString() === productId)
+    const product = products.find((p) => p.id === productId)
     if (!product) return null
 
     // Buscamos el registro que coincida con la unidad seleccionada
@@ -185,6 +190,18 @@ export function OperationForm() {
   const getNewStock = (currentStock: number, amount: number) => {
     const qty = Number(amount) || 0
     return currentStock + qty
+  }
+
+  const handleAddProductOnSearch = (p: Products) => {
+    handleAddRow({
+      id: generateUUID(),
+      product_id: p.id,
+      unit: 0,
+      amount: 0,
+      notes: '',
+    })
+    setSearchInputValue('')
+    setOpenSearchDialog(false)
   }
 
   return (
@@ -285,6 +302,7 @@ export function OperationForm() {
                       type="date"
                       defaultValue={new Date().toISOString().split('T')[0]}
                       className="pl-9 border-slate-200"
+                      disabled
                     />
                     <Calendar className="h-4 w-4 absolute left-3 top-2.5 text-slate-400" />
                   </div>
@@ -358,16 +376,16 @@ export function OperationForm() {
                     <TableHead className="w-[10%] text-right text-blue-600 font-medium">
                       Nuevo Stock
                     </TableHead>
-                    <TableHead className="w-[20%] pl-4 text-slate-500 font-medium">
+                    {/* <TableHead className="w-[20%] pl-4 text-slate-500 font-medium">
                       Notas
-                    </TableHead>
+                    </TableHead> */}
                     <TableHead className="w-[5%]"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {details.map((row) => {
                     const productObj = products.find(
-                      (p) => p.id.toString() === row.product_id,
+                      (p) => p.id === row.product_id,
                     )
                     const currentStock = getCurrentStock(
                       row.product_id,
@@ -385,7 +403,7 @@ export function OperationForm() {
                       <TableRow key={row.id} className="group border-slate-100">
                         <TableCell className="p-2 align-top">
                           <Select
-                            value={row.product_id}
+                            value={row.product_id.toString()}
                             onValueChange={(val) =>
                               handleDetailChange(row.id, 'product_id', val)
                             }
@@ -467,7 +485,7 @@ export function OperationForm() {
                           </div>
                         </TableCell>
 
-                        <TableCell className="p-2 align-top">
+                        {/* <TableCell className="p-2 align-top">
                           <Input
                             value={row.notes}
                             onChange={(e) =>
@@ -480,7 +498,7 @@ export function OperationForm() {
                             placeholder="Ej. Lote A"
                             className="h-9 border-slate-200 text-sm placeholder:italic"
                           />
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell className="p-2 align-top text-center">
                           <Button
                             type="button"
@@ -498,60 +516,56 @@ export function OperationForm() {
                   })}
                 </TableBody>
               </Table>
-
               <div className="p-8 bg-slate-50/50 flex flex-col items-center justify-center gap-3 border-t border-slate-100">
                 <p className="text-sm text-slate-500">
                   Use el buscador para añadir más productos a la carga actual.
                 </p>
                 <div className="relative w-full max-w-lg">
-                  <Search className="h-4 w-4 absolute left-3 top-3 text-slate-400" />
+                  <Search
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                    size={16}
+                  />
+                  <Input
+                    type="text"
+                    className="w-full pl-9"
+                    placeholder="Buscar por Nombre o SKU..."
+                    value={searchInputValue}
+                    onChange={(e) => setSearchInputValue(e.target.value)}
+                    onSelect={() => setOpenSearchDialog(true)}
+                  />
+                </div>
+                <CommandDialog
+                  open={openSearchDialog}
+                  onOpenChange={() => setOpenSearchDialog(false)}
+                >
                   <Command>
                     <CommandInput
-                      className="pl-9 h-10 border-slate-200 bg-white"
                       placeholder="Buscar por Nombre o SKU..."
                       value={searchInputValue}
-                      onValueChange={setSearchInputValue}
-                      onFocus={() => setShowResults(true)}
-                      onBlur={() => setShowResults(false)}
+                      onValueChange={(e) => setSearchInputValue(e)}
                     />
                     <CommandList>
                       <CommandEmpty>
                         No se encontraron productos coincidentes.
                       </CommandEmpty>
-
-                      {showResults &&
-                        products.map((p) => (
-                          <CommandItem
-                            key={p.id}
-                            // El valor debe ir preferiblemente en minúsculas para un emparejamiento óptimo en cmdk
-                            value={`${p.description.toLowerCase()} ${p.code.toLowerCase()}`}
-                            onSelect={() => {
-                              handleAddRow({
-                                id: generateUUID(),
-                                product_id: p.id.toString(),
-                                unit: 0,
-                                amount: 0,
-                                notes: '',
-                              })
-                              setSearchInputValue('')
-                              setShowResults(false)
-                              toast.success(
-                                'Producto añadido a las líneas de entrada',
-                              )
-                            }}
-                            className="flex flex-col items-start gap-0.5 py-2 px-3 cursor-pointer data-[selected='true']:bg-slate-100"
-                          >
-                            <span className="font-medium text-sm text-slate-900">
-                              {p.description}
-                            </span>
-                            <span className="text-xs text-slate-500 font-mono">
-                              SKU: {p.code}
-                            </span>
-                          </CommandItem>
-                        ))}
+                      {products.map((p) => (
+                        <CommandItem
+                          key={p.id}
+                          value={`${p.description.toLowerCase()} ${p.code.toLowerCase()}`}
+                          onSelect={() => handleAddProductOnSearch(p)}
+                          className="flex flex-col items-start gap-0.5 py-2 px-3 cursor-pointer data-[selected='true']:bg-slate-100"
+                        >
+                          <span className="font-medium text-sm text-slate-900">
+                            {p.description}
+                          </span>
+                          <span className="text-xs text-slate-500 font-mono">
+                            SKU: {p.code}
+                          </span>
+                        </CommandItem>
+                      ))}
                     </CommandList>
                   </Command>
-                </div>
+                </CommandDialog>
               </div>
             </CardContent>
           </Card>

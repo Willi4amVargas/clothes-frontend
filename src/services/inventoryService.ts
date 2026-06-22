@@ -34,15 +34,27 @@ export type ProductWithDetails = Products & {
   stock: ProductsStock[]
 }
 
+export type GetInventoryParams = {
+  units?: boolean
+  stock?: boolean
+  ids?: number[]
+}
+
 class InventoryService {
-  getInventory = () => {
-    return apiService.get<ProductWithDetails[]>(
-      '/products?units=true&stock=true',
-      {
-        withAuth: false,
-        dryRun: false,
-      },
-    )
+  getInventory = ({ units, stock, ids }: GetInventoryParams) => {
+    const params = new URLSearchParams()
+
+    if (units !== undefined) params.append('units', String(units))
+    if (stock !== undefined) params.append('stock', String(stock))
+    if (ids && ids.length > 0) params.append('ids', ids.join(','))
+
+    const queryString = params.toString()
+    const url = `/products${queryString ? `?${queryString}` : ''}`
+
+    return apiService.get<ProductWithDetails[]>(url, {
+      withAuth: false,
+      dryRun: false,
+    })
   }
 
   getInventoryDetails = (id: number | undefined) => {

@@ -8,8 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from '#/components/ui/table'
+import { useInventoryMultiple } from '#/hook/useInventory'
 import { useInventoryOperationDetails } from '#/hook/useInventoryOperation'
 import { useUsers } from '#/hook/useUsers'
+import type { InventoryOperationDetail } from '#/services/inventoryOperationService'
 import {
   ArrowDownLeftIcon,
   ArrowUpRightIcon,
@@ -26,6 +28,47 @@ export const Route = createFileRoute(
 )({
   component: RouteComponent,
 })
+
+function TableRowsComponent({ iod }: { iod: InventoryOperationDetail[] }) {
+  const { inventory } = useInventoryMultiple({
+    ids: iod.map((p) => p.product_id),
+    units: true,
+  })
+  if (inventory.isLoading) {
+    return <>Cargando listado...</>
+  }
+  if (inventory.data)
+    return (
+      <>
+        {inventory.data.map((detail, idx) => {
+          const inventoryDetail = iod.find((r) => r.product_id === detail.id)
+          const unit = detail.units.find((p) => p.id === inventoryDetail?.unit)
+          return (
+            <TableRow key={idx} className="hover:bg-slate-50/50">
+              <TableCell className="font-mono text-xs text-slate-500">
+                PRD-{detail.code}
+              </TableCell>
+              <TableCell className="font-medium text-slate-800">
+                {detail.description || 'Producto Desconocido'}
+              </TableCell>
+              <TableCell className="text-right text-slate-600">
+                {unit?.unit}
+              </TableCell>
+              <TableCell className="text-right font-medium text-slate-700">
+                {inventoryDetail?.amount}
+              </TableCell>
+              <TableCell className="text-right text-slate-600">
+                ${unit?.cost.toFixed(2) || '0.00'}
+              </TableCell>
+              <TableCell className="text-right font-semibold text-slate-900">
+                ${inventoryDetail?.total.toFixed(2) || '0.00'}
+              </TableCell>
+            </TableRow>
+          )
+        })}
+      </>
+    )
+}
 
 function UserInfoComponent({ id }: { id: number }) {
   const { userBasic: OperationCreator } = useUsers(id)
@@ -74,8 +117,7 @@ function RouteComponent() {
   }
 
   const op = operationDetails.data
-  const documentRef =
-    op.document_no || `REF-${op.id.toString().padStart(6, '0')}`
+  const documentRef = op.document_no
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
@@ -213,28 +255,7 @@ function RouteComponent() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {op.inventory_operation_details.map((detail, idx) => (
-                      <TableRow key={idx} className="hover:bg-slate-50/50">
-                        <TableCell className="font-mono text-xs text-slate-500">
-                          PRD-{detail.product_id}
-                        </TableCell>
-                        <TableCell className="font-medium text-slate-800">
-                          {detail.description_product || 'Producto Desconocido'}
-                        </TableCell>
-                        <TableCell className="text-right text-slate-600">
-                          {detail.unit}
-                        </TableCell>
-                        <TableCell className="text-right font-medium text-slate-700">
-                          {detail.amount}
-                        </TableCell>
-                        <TableCell className="text-right text-slate-600">
-                          ${detail.unitary_cost.toFixed(2) || '0.00'}
-                        </TableCell>
-                        <TableCell className="text-right font-semibold text-slate-900">
-                          ${detail.total.toFixed(2) || '0.00'}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    <TableRowsComponent iod={op.inventory_operation_details} />
                     {totalItems === 0 && (
                       <TableRow>
                         <TableCell
