@@ -9,9 +9,17 @@ import {
   CardTitle,
 } from '../../../../components/ui/card'
 import { Input } from '../../../../components/ui/input'
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '#/components/ui/input-group'
+import { EyeIcon, EyeSlashIcon } from '@phosphor-icons/react'
+import { useState } from 'react'
 
 export function LoginForm() {
   const { login } = useAuth()
+  const [visiblePassword, setVisiblePassword] = useState(false)
 
   const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -38,12 +46,22 @@ export function LoginForm() {
       <CardContent>
         <form onSubmit={onSubmit} id="login-form" className="space-y-6">
           <Input name="code" id="code" type="text" placeholder="e.g. USR001" />
-          <Input
-            name="password"
-            id="password"
-            type="password"
-            placeholder="••••••••"
-          />
+          <InputGroup>
+            <InputGroupInput
+              name="password"
+              id="password"
+              type={visiblePassword ? 'text' : 'password'}
+              placeholder={visiblePassword ? 'secretpassword' : '••••••••'}
+            />
+            <InputGroupAddon align={'inline-end'} className='hover:cursor-pointer'>
+              {visiblePassword ? (
+                <EyeSlashIcon onClick={() => setVisiblePassword(false)} />
+              ) : (
+                <EyeIcon onClick={() => setVisiblePassword(true)} />
+              )}
+            </InputGroupAddon>
+          </InputGroup>
+          {/* <Input /> */}
           <Button
             type="submit"
             form="login-form"
@@ -53,10 +71,8 @@ export function LoginForm() {
             Iniciar Sesión
           </Button>
         </form>
-        <Button variant={"link"}>
-          <Link to='/recovery-password'>
-            ¿Olvidaste la contraseña?
-          </Link>
+        <Button variant={'link'}>
+          <Link to="/recovery-password">¿Olvidaste la contraseña?</Link>
         </Button>
       </CardContent>
     </Card>

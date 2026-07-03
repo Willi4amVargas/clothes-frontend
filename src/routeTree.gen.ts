@@ -25,6 +25,7 @@ import { Route as AuthenticatedSalesNewIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedInventoryOperationsIndexRouteImport } from './routes/_authenticated/inventory/operations/index'
 import { Route as AuthenticatedInventoryNewIndexRouteImport } from './routes/_authenticated/inventory/new/index'
 import { Route as AuthenticatedClientsNewIndexRouteImport } from './routes/_authenticated/clients/new/index'
+import { Route as AuthenticatedClientsIdIndexRouteImport } from './routes/_authenticated/clients/$id/index'
 import { Route as AuthenticatedInventoryUpdateIdIndexRouteImport } from './routes/_authenticated/inventory/update/$id/index'
 import { Route as AuthenticatedInventoryOperationsNewIndexRouteImport } from './routes/_authenticated/inventory/operations/new/index'
 import { Route as AuthenticatedInventoryOperationsIdIndexRouteImport } from './routes/_authenticated/inventory/operations/$id/index'
@@ -117,6 +118,12 @@ const AuthenticatedClientsNewIndexRoute =
     path: '/clients/new/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedClientsIdIndexRoute =
+  AuthenticatedClientsIdIndexRouteImport.update({
+    id: '/clients/$id/',
+    path: '/clients/$id/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInventoryUpdateIdIndexRoute =
   AuthenticatedInventoryUpdateIdIndexRouteImport.update({
     id: '/inventory/update/$id/',
@@ -147,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/profile/': typeof AuthenticatedProfileIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/clients/$id/': typeof AuthenticatedClientsIdIndexRoute
   '/clients/new/': typeof AuthenticatedClientsNewIndexRoute
   '/inventory/new/': typeof AuthenticatedInventoryNewIndexRoute
   '/inventory/operations/': typeof AuthenticatedInventoryOperationsIndexRoute
@@ -166,6 +174,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
+  '/clients/$id': typeof AuthenticatedClientsIdIndexRoute
   '/clients/new': typeof AuthenticatedClientsNewIndexRoute
   '/inventory/new': typeof AuthenticatedInventoryNewIndexRoute
   '/inventory/operations': typeof AuthenticatedInventoryOperationsIndexRoute
@@ -188,6 +197,7 @@ export interface FileRoutesById {
   '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
+  '/_authenticated/clients/$id/': typeof AuthenticatedClientsIdIndexRoute
   '/_authenticated/clients/new/': typeof AuthenticatedClientsNewIndexRoute
   '/_authenticated/inventory/new/': typeof AuthenticatedInventoryNewIndexRoute
   '/_authenticated/inventory/operations/': typeof AuthenticatedInventoryOperationsIndexRoute
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/sales/'
     | '/settings/'
+    | '/clients/$id/'
     | '/clients/new/'
     | '/inventory/new/'
     | '/inventory/operations/'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/sales'
     | '/settings'
+    | '/clients/$id'
     | '/clients/new'
     | '/inventory/new'
     | '/inventory/operations'
@@ -249,6 +261,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile/'
     | '/_authenticated/sales/'
     | '/_authenticated/settings/'
+    | '/_authenticated/clients/$id/'
     | '/_authenticated/clients/new/'
     | '/_authenticated/inventory/new/'
     | '/_authenticated/inventory/operations/'
@@ -379,6 +392,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientsNewIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/clients/$id/': {
+      id: '/_authenticated/clients/$id/'
+      path: '/clients/$id'
+      fullPath: '/clients/$id/'
+      preLoaderRoute: typeof AuthenticatedClientsIdIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inventory/update/$id/': {
       id: '/_authenticated/inventory/update/$id/'
       path: '/inventory/update/$id'
@@ -424,6 +444,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
   AuthenticatedSalesIndexRoute: typeof AuthenticatedSalesIndexRoute
   AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
+  AuthenticatedClientsIdIndexRoute: typeof AuthenticatedClientsIdIndexRoute
   AuthenticatedClientsNewIndexRoute: typeof AuthenticatedClientsNewIndexRoute
   AuthenticatedInventoryNewIndexRoute: typeof AuthenticatedInventoryNewIndexRoute
   AuthenticatedInventoryOperationsIndexRoute: typeof AuthenticatedInventoryOperationsIndexRoute
@@ -440,6 +461,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
   AuthenticatedSalesIndexRoute: AuthenticatedSalesIndexRoute,
   AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
+  AuthenticatedClientsIdIndexRoute: AuthenticatedClientsIdIndexRoute,
   AuthenticatedClientsNewIndexRoute: AuthenticatedClientsNewIndexRoute,
   AuthenticatedInventoryNewIndexRoute: AuthenticatedInventoryNewIndexRoute,
   AuthenticatedInventoryOperationsIndexRoute:

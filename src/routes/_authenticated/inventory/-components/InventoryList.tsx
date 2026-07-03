@@ -17,9 +17,15 @@ const formatNumber = (num: number): string => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
-export function InventoryList({ setSelectedProduct }: { setSelectedProduct: React.Dispatch<React.SetStateAction<number | undefined>> }) {
+export function InventoryList({
+  setSelectedProduct,
+  selectProduct,
+}: {
+  setSelectedProduct: React.Dispatch<React.SetStateAction<number | undefined>>
+  selectProduct: number | undefined
+}) {
   const { inventory } = useInventory()
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
 
   const filteredProducts = useMemo(() => {
     const products = inventory.data
@@ -29,20 +35,32 @@ export function InventoryList({ setSelectedProduct }: { setSelectedProduct: Reac
     if (!query) return products
 
     return products.filter((item) => {
-      const code = item.code.toLowerCase() || ""
-      const description = item.description.toLowerCase() || ""
-      const model = item.model.toLowerCase() || ""
+      const code = item.code.toLowerCase() || ''
+      const description = item.description.toLowerCase() || ''
+      const model = item.model.toLowerCase() || ''
 
-      return code.includes(query) || description.includes(query) || model.includes(query)
+      return (
+        code.includes(query) ||
+        description.includes(query) ||
+        model.includes(query)
+      )
     })
   }, [inventory, searchTerm])
 
   if (inventory.isLoading) {
-    return <div className="p-8 text-center text-gray-500">Cargando inventario...</div>
+    return (
+      <div className="p-8 text-center text-gray-500">
+        Cargando inventario...
+      </div>
+    )
   }
 
   if (inventory.isError) {
-    return <div className="p-8 text-center text-destructive">Error al cargar los productos.</div>
+    return (
+      <div className="p-8 text-center text-destructive">
+        Error al cargar los productos.
+      </div>
+    )
   }
 
   return (
@@ -66,17 +84,30 @@ export function InventoryList({ setSelectedProduct }: { setSelectedProduct: Reac
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50">
-              <TableHead className="font-semibold text-gray-900 w-30">Code</TableHead>
-              <TableHead className="font-semibold text-gray-900">Product Name</TableHead>
-              <TableHead className="font-semibold text-gray-900">Category</TableHead>
-              <TableHead className="font-semibold text-gray-900 text-right">Discount</TableHead>
-              <TableHead className="font-semibold text-gray-900 text-right">Status</TableHead>
+              <TableHead className="font-semibold text-gray-900 w-30">
+                Code
+              </TableHead>
+              <TableHead className="font-semibold text-gray-900">
+                Product Name
+              </TableHead>
+              <TableHead className="font-semibold text-gray-900">
+                Category
+              </TableHead>
+              <TableHead className="font-semibold text-gray-900 text-right">
+                Discount
+              </TableHead>
+              <TableHead className="font-semibold text-gray-900 text-right">
+                Status
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredProducts.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-8 text-gray-400">
+                <TableCell
+                  colSpan={5}
+                  className="text-center py-8 text-gray-400"
+                >
                   No se encontraron productos.
                 </TableCell>
               </TableRow>
@@ -84,10 +115,16 @@ export function InventoryList({ setSelectedProduct }: { setSelectedProduct: Reac
               filteredProducts.map((item) => (
                 <TableRow
                   key={item.id}
-                  className="hover:cursor-pointer"
+                  className={`cursor-pointer ${
+                    selectProduct === item.id
+                      ? 'bg-primary/5 hover:bg-primary/5'
+                      : ''
+                  }`}
                   onClick={() => setSelectedProduct(item.id)}
                 >
-                  <TableCell className="font-medium text-gray-700">{item.code}</TableCell>
+                  <TableCell className="font-medium text-gray-700">
+                    {item.code}
+                  </TableCell>
                   <TableCell className="text-gray-900 truncate max-w-xs w-1/6">
                     {item.description}
                   </TableCell>

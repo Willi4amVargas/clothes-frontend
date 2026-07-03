@@ -4,17 +4,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { ClientTable } from './-components/ClientTable'
 import { ClientDetailsPanel } from './-components/ClientDetailsPanel'
-
-type ClientStatus = 'Active' | 'On Hold' | 'Inactive'
-
-interface Client {
-  code: string
-  description: string
-  city: string
-  creditLimit: number
-  currentBalance: number
-  status: ClientStatus
-}
+import type { Client } from '#/services/clientService'
 
 export const Route = createFileRoute('/_authenticated/clients/')({
   component: RouteComponent,
@@ -34,7 +24,7 @@ function RouteComponent() {
             Manage corporate accounts and credit terms.
           </p>
         </div>
-        <Button className="hover:bg-primary bg-primary/80 my-auto" asChild>
+        <Button className="my-auto" asChild>
           <Link to="/clients/new">
             <PlusIcon /> New Client
           </Link>
