@@ -15,14 +15,14 @@ function RouteComponent() {
   return (
     <div className="mx-5">
       <InventoryHeader />
-      <div className="grid grid-cols-5 gap-x-2 mt-4">
-        <div className="col-span-3">
+      <div className="flex gap-3">
+        <div className="w-[70%]">
           <InventoryList
             selectProduct={selectProduct}
             setSelectedProduct={setSelectProduct}
           />
         </div>
-        <div className="col-span-2">
+        <div className="w-[30%]">
           <InventoryListUnits selectProduct={selectProduct} />
         </div>
       </div>

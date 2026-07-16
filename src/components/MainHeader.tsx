@@ -17,7 +17,7 @@ import {
 const centerLinks = [
   { label: 'Inventory', url: '/inventory' },
   { label: 'Clients', url: '/clients' },
-  { label: 'Sales POS', url: '/sales' },
+  { label: 'Sales POS', url: '/sales/new' },
 ]
 
 export function MainHeader() {

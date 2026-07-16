@@ -47,7 +47,7 @@ function RouteComponent() {
             asChild
             variant="outline"
           >
-            <Link to="/sales">New Sale</Link>
+            <Link to="/sales/new">New Sale</Link>
           </Button>
         </div>
       </section>

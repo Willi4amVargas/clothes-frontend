@@ -64,10 +64,10 @@ export function InventoryList({
   }
 
   return (
-    <div className="w-full ring-1 ring-foreground/10 overflow-hidden bg-white">
-      <div className="flex items-center gap-2 p-4 border-b bg-gray-50/50">
+    <div className="w-full h-full ring-1 ring-foreground/10 overflow-hidden bg-white">
+      <div className="flex items-center gap-2 px-4 py-3 border-b bg-gray-50/50">
         <div className="relative grow max-w-sm">
-          <FunnelIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
             placeholder="Filter products..."
             className="pl-9 bg-white"
@@ -75,12 +75,9 @@ export function InventoryList({
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Button variant="outline" size="icon" className="text-gray-500">
-          <MagnifyingGlassIcon className="h-4 w-4" />
-        </Button>
       </div>
 
-      <div className="relative h-[45vh] overflow-y-auto">
+      <div className="relative overflow-y-auto">
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50">
@@ -129,7 +126,7 @@ export function InventoryList({
                     {item.description}
                   </TableCell>
                   <TableCell className="text-gray-600">{item.model}</TableCell>
-                  <TableCell>% {formatNumber(+item.discount)}</TableCell>
+                  <TableCell className='text-right'>% {formatNumber(+item.discount)}</TableCell>
                   <TableCell className="text-right">
                     {item.status ? (
                       <Badge variant="default">ACTIVE</Badge>

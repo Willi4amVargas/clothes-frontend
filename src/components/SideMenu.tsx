@@ -24,13 +24,13 @@ const topNavItems: NavItem[] = [
   { label: 'Dashboard', icon: HouseIcon, path: '/dashboard' },
   { label: 'Inventory', icon: StackIcon, path: '/inventory' },
   { label: 'Clients', icon: UsersThreeIcon, path: '/clients' },
-  { label: 'Sales POS', icon: ShoppingCartSimpleIcon, path: '/sales' },
+  { label: 'Sales', icon: ShoppingCartSimpleIcon, path: '/sales' },
   // { label: "Reports", icon: ChartBarIcon, path: "/reports" },
-  { label: 'Settings', icon: GearSixIcon, path: '/settings' },
+  // { label: 'Settings', icon: GearSixIcon, path: '/settings' },
 ]
 
 const bottomNavItems: NavItem[] = [
-  { label: 'Support', icon: LifebuoyIcon, path: '/support' },
+  // { label: 'Support', icon: LifebuoyIcon, path: '/support' },
 ]
 
 export function SideMenu() {
@@ -61,7 +61,7 @@ export function SideMenu() {
                   Enterprise ERP
                 </p>
                 <p className="text-[10px] text-slate-500 mt-1">
-                  V2.4.0 High-Density
+                  V1.0.0 High-Density
                 </p>
               </div>
             </div>
@@ -70,7 +70,7 @@ export function SideMenu() {
       </div>
 
       <div className="px-3 py-4">
-        <ButtonLink label="New Transaction" to="/sales" isOpen={isOpen} />
+        <ButtonLink label="New Transaction" to="/sales/new" isOpen={isOpen} />
       </div>
 
       <nav className="flex-1 overflow-y-auto space-y-1 px-3">

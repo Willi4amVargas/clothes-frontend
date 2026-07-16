@@ -31,14 +31,14 @@ export const InventoryListUnits = ({
 
   if (!selectProduct) {
     return (
-      <Card className="mx-auto flex flex-col items-center justify-center p-12 text-center border-dashed">
+      <Card className="mx-auto flex flex-col items-center justify-center p-12 text-center border-dashed text-gray-400 bg-gray-50/50 ">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted/50 mb-4">
-          <PackageIcon className="h-6 w-6 text-muted-foreground" />
+          <PackageIcon className="h-6 w-6 text-gray-300" />
         </div>
-        <h3 className="text-lg font-medium text-foreground">
+        <h3 className="text-lg font-medium text-gray-600">
           No hay selección
         </h3>
-        <p className="text-sm text-muted-foreground mt-1 max-w-xs">
+        <p className="text-sm text-gray-400 mt-1 max-w-xs">
           Elija un producto en la tabla de la izquierda para ver el desglose de
           unidades y stock.
         </p>

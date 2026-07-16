@@ -30,7 +30,7 @@ function RouteComponent() {
           </Link>
         </Button>
       </div>
-      <div className="flex gap-3 h-[calc(100vh-10rem)]">
+      <div className="flex gap-3 ">
         <div className="w-[70%]">
           <ClientTable
             selectedClient={selectedClient}

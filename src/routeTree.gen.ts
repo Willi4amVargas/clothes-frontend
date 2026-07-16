@@ -22,6 +22,7 @@ import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authent
 import { Route as AuthRecoveryPasswordIndexRouteImport } from './routes/_auth/recovery-password/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/_auth/login/index'
 import { Route as AuthenticatedSalesNewIndexRouteImport } from './routes/_authenticated/sales/new/index'
+import { Route as AuthenticatedSalesIdIndexRouteImport } from './routes/_authenticated/sales/$id/index'
 import { Route as AuthenticatedInventoryOperationsIndexRouteImport } from './routes/_authenticated/inventory/operations/index'
 import { Route as AuthenticatedInventoryNewIndexRouteImport } from './routes/_authenticated/inventory/new/index'
 import { Route as AuthenticatedClientsNewIndexRouteImport } from './routes/_authenticated/clients/new/index'
@@ -100,6 +101,12 @@ const AuthenticatedSalesNewIndexRoute =
     path: '/sales/new/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSalesIdIndexRoute =
+  AuthenticatedSalesIdIndexRouteImport.update({
+    id: '/sales/$id/',
+    path: '/sales/$id/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInventoryOperationsIndexRoute =
   AuthenticatedInventoryOperationsIndexRouteImport.update({
     id: '/inventory/operations/',
@@ -158,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/clients/new/': typeof AuthenticatedClientsNewIndexRoute
   '/inventory/new/': typeof AuthenticatedInventoryNewIndexRoute
   '/inventory/operations/': typeof AuthenticatedInventoryOperationsIndexRoute
+  '/sales/$id/': typeof AuthenticatedSalesIdIndexRoute
   '/sales/new/': typeof AuthenticatedSalesNewIndexRoute
   '/inventory/operations/$id/': typeof AuthenticatedInventoryOperationsIdIndexRoute
   '/inventory/operations/new/': typeof AuthenticatedInventoryOperationsNewIndexRoute
@@ -178,6 +186,7 @@ export interface FileRoutesByTo {
   '/clients/new': typeof AuthenticatedClientsNewIndexRoute
   '/inventory/new': typeof AuthenticatedInventoryNewIndexRoute
   '/inventory/operations': typeof AuthenticatedInventoryOperationsIndexRoute
+  '/sales/$id': typeof AuthenticatedSalesIdIndexRoute
   '/sales/new': typeof AuthenticatedSalesNewIndexRoute
   '/inventory/operations/$id': typeof AuthenticatedInventoryOperationsIdIndexRoute
   '/inventory/operations/new': typeof AuthenticatedInventoryOperationsNewIndexRoute
@@ -201,6 +210,7 @@ export interface FileRoutesById {
   '/_authenticated/clients/new/': typeof AuthenticatedClientsNewIndexRoute
   '/_authenticated/inventory/new/': typeof AuthenticatedInventoryNewIndexRoute
   '/_authenticated/inventory/operations/': typeof AuthenticatedInventoryOperationsIndexRoute
+  '/_authenticated/sales/$id/': typeof AuthenticatedSalesIdIndexRoute
   '/_authenticated/sales/new/': typeof AuthenticatedSalesNewIndexRoute
   '/_authenticated/inventory/operations/$id/': typeof AuthenticatedInventoryOperationsIdIndexRoute
   '/_authenticated/inventory/operations/new/': typeof AuthenticatedInventoryOperationsNewIndexRoute
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/clients/new/'
     | '/inventory/new/'
     | '/inventory/operations/'
+    | '/sales/$id/'
     | '/sales/new/'
     | '/inventory/operations/$id/'
     | '/inventory/operations/new/'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
     | '/clients/new'
     | '/inventory/new'
     | '/inventory/operations'
+    | '/sales/$id'
     | '/sales/new'
     | '/inventory/operations/$id'
     | '/inventory/operations/new'
@@ -265,6 +277,7 @@ export interface FileRouteTypes {
     | '/_authenticated/clients/new/'
     | '/_authenticated/inventory/new/'
     | '/_authenticated/inventory/operations/'
+    | '/_authenticated/sales/$id/'
     | '/_authenticated/sales/new/'
     | '/_authenticated/inventory/operations/$id/'
     | '/_authenticated/inventory/operations/new/'
@@ -371,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSalesNewIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/sales/$id/': {
+      id: '/_authenticated/sales/$id/'
+      path: '/sales/$id'
+      fullPath: '/sales/$id/'
+      preLoaderRoute: typeof AuthenticatedSalesIdIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inventory/operations/': {
       id: '/_authenticated/inventory/operations/'
       path: '/inventory/operations'
@@ -448,6 +468,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedClientsNewIndexRoute: typeof AuthenticatedClientsNewIndexRoute
   AuthenticatedInventoryNewIndexRoute: typeof AuthenticatedInventoryNewIndexRoute
   AuthenticatedInventoryOperationsIndexRoute: typeof AuthenticatedInventoryOperationsIndexRoute
+  AuthenticatedSalesIdIndexRoute: typeof AuthenticatedSalesIdIndexRoute
   AuthenticatedSalesNewIndexRoute: typeof AuthenticatedSalesNewIndexRoute
   AuthenticatedInventoryOperationsIdIndexRoute: typeof AuthenticatedInventoryOperationsIdIndexRoute
   AuthenticatedInventoryOperationsNewIndexRoute: typeof AuthenticatedInventoryOperationsNewIndexRoute
@@ -466,6 +487,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInventoryNewIndexRoute: AuthenticatedInventoryNewIndexRoute,
   AuthenticatedInventoryOperationsIndexRoute:
     AuthenticatedInventoryOperationsIndexRoute,
+  AuthenticatedSalesIdIndexRoute: AuthenticatedSalesIdIndexRoute,
   AuthenticatedSalesNewIndexRoute: AuthenticatedSalesNewIndexRoute,
   AuthenticatedInventoryOperationsIdIndexRoute:
     AuthenticatedInventoryOperationsIdIndexRoute,

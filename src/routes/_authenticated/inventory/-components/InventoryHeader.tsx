@@ -4,7 +4,7 @@ import { Link } from '@tanstack/react-router'
 
 export function InventoryHeader() {
   return (
-    <div className="flex justify-between items-center mb-6">
+    <div className="flex justify-between items-center mb-4">
       <div>
         <h1 className="text-2xl font-semibold text-slate-900">
           Products & Multi-Unit Stock
@@ -14,16 +14,16 @@ export function InventoryHeader() {
         </p>
       </div>
       <div className="flex gap-2">
-        <Button variant={'ghost'}>
+        {/* <Button variant={'ghost'}>
           <ExportIcon />
           Export
-        </Button>
+        </Button> */}
         <Button asChild variant={"outline"}>
           <Link to="/inventory/operations">
             <StackPlusIcon /> Operations
           </Link>
         </Button>
-        <Button asChild variant={"secondary"}>
+        <Button asChild variant={"outline"}>
           <Link to="/inventory/operations/new">
             <StackPlusIcon /> Load / Download
           </Link>
