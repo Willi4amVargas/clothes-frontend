@@ -334,14 +334,14 @@ export function OperationForm() {
               <CardTitle className="text-sm font-semibold text-slate-800 flex items-center gap-2">
                 <List className="h-4 w-4 text-slate-500" /> Líneas de Entrada
               </CardTitle>
-              <Button
+              {/* <Button
                 type="button"
                 variant="link"
                 onClick={() => handleAddRow()}
                 className="text-blue-600 font-medium p-0 h-auto"
               >
                 + Añadir Item
-              </Button>
+              </Button> */}
             </CardHeader>
 
             <CardContent className="p-0">
